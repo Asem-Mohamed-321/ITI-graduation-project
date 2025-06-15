@@ -1,42 +1,34 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.navbar-component {
+  height: 72px;
+  width: 1440px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.navbar-component .overlap-group {
+  height: 72px;
+  position: relative;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-component .navigation-header-default {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  width: 1440px !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.navbar-component .navigation-header-instance {
+  left: 1330px !important;
+  position: absolute !important;
+  top: 16px !important;
 }
 
-.card {
-  padding: 2em;
+.navbar-component .navigation-header-default-instance {
+  left: 1201px !important;
+  position: absolute !important;
+  top: 16px !important;
 }
 
-.read-the-docs {
-  color: #888;
+.navbar-component .toggle-instance {
+  left: 1129px !important;
+  position: absolute !important;
+  top: 20px !important;
 }
