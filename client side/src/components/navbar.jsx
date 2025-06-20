@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react";
 
-
 export default function Navbar(){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // settings dropdown in mobile view
@@ -15,7 +14,6 @@ export default function Navbar(){
             root.classList.remove('dark');
         }
     }, [isDarkMode]);
-
 
     return(
         <>
