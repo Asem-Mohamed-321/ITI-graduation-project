@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Select from 'react-select';
+import { NavLink } from 'react-router';
 
 export default function(){
     
@@ -154,7 +155,7 @@ export default function(){
                             <button type='button' onClick={firstForm} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign In</button>
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
-                        <p className="inline font-normal dark:text-slate-400">Already have an account ? <a href="/login" className="inline text-blue-500 dark:text-blue-300">Login</a></p>
+                        <p className="inline font-normal dark:text-slate-400">Already have an account ? <NavLink to="/login" className="inline text-blue-500 dark:text-blue-300">Login</NavLink></p>
                     
                     </div>
                     </form>
@@ -202,7 +203,7 @@ export default function(){
 
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
-                        <p className="inline font-normal dark:text-slate-400">Already have an account ? <a href="/login" className="inline text-blue-500 dark:text-blue-300">Login</a></p>
+                        <p className="inline font-normal dark:text-slate-400">Already have an account ? <NavLink to="/login" className="inline text-blue-500 dark:text-blue-300">Login</NavLink></p>
                     
                     </div>
                     </form>

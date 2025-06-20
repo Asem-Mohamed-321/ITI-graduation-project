@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { NavLink } from 'react-router';
 export default function(){
 
     const [username, setUsername] = useState("");
@@ -31,7 +31,7 @@ export default function(){
     return (
         <>
             <div className="flex w-11/12 m-auto mt-5 bg-white">
-                <div className="md:w-1/2 w-full py-40 dark:bg-gray-700">
+                <div className="md:w-1/2 w-full pt-40 pb-30 dark:bg-gray-700">
                     <p className="text-center font-extrabold mb-12 dark:text-white">SIGN IN TO THE CV CHECKER</p>
                     <form className="flex flex-col space-y-4 mx-auto  w-fit  md:w-96 px-8 dark:bg-gray-700">
                         {/* mx-48 */}
@@ -49,7 +49,7 @@ export default function(){
                             <button onClick={login} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign In</button>
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
-                        <p className="inline font-normal dark:text-slate-400">you don’t have an account ? <a href="/register" className="inline text-blue-500 dark:text-blue-300">Create a new account</a></p>
+                        <p className="inline font-normal dark:text-slate-400">you don’t have an account ? <NavLink to="/register" className="inline text-blue-500 dark:text-blue-300">Create a new account </NavLink></p>
                     </div>
                     </form>
                     

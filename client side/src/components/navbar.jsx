@@ -1,4 +1,5 @@
 import { useState,useEffect } from "react";
+import { NavLink } from "react-router"; 
 
 export default function Navbar(){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
@@ -43,10 +44,10 @@ export default function Navbar(){
 
                     {/* desktop view buttons in the navbar */}
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="flex shrink-0 items-center">
+                        <NavLink to={'/home'} className="flex shrink-0 items-center">
                         <img className="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white" alt="Your Company" />
                             <p className="text-white font-bold ml-2 ">Tailwind CSS</p>
-                        </div>
+                        </NavLink>
                         <div className="hidden sm:ml-6 sm:block">
                         <div className="flex space-x-2">
                             <a href="#" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</a>
@@ -61,8 +62,8 @@ export default function Navbar(){
                                 <input type="checkbox" value="" className="sr-only peer" onChange={() => {setIsDarkMode(prev => !prev);console.log(isDarkMode)}}></input>
                                 <div className="relative w-11 h-6 bg-[#787880]/[0.16]   rounded-full peer dark:bg-[#787880]/[0.16] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
                             </label>
-                            <button className=" cursor-pointer ml-5 h-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800  py-2 px-4 border border-white rounded">Sign up</button>
-                            <button className=" cursor-pointer ml-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800 py-2 px-4 border border-white rounded">Login</button>
+                            <NavLink to={'/register'} className=" cursor-pointer ml-5 h-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800  py-2 px-4 border border-white rounded">Sign up</NavLink>
+                            <NavLink to={'/login'} className=" cursor-pointer ml-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800 py-2 px-4 border border-white rounded">Login</NavLink>
                         </div>
                         {/* <!-- Profile dropdown --> */}
                         <div className="relative ">
@@ -80,8 +81,8 @@ export default function Navbar(){
                         
                             {isMobileDropdownOpen && ( //if dropdown is clicked
                             <div className="sm:hidden block absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-slate-900 dark:ring-black/5 " role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Sign up</a>
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Login</a>
+                                <NavLink to='/register' className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Sign up</NavLink>
+                                <NavLink to='/login' className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Login</NavLink>
                                 <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:hover:bg-slate-600 dark:text-white" role="menuitem" tabIndex="-1" id="user-menu-item-2">
                                     <label className="inline-flex items-center justify-between w-full cursor-pointer">
                                     <span>Dark mode</span>
