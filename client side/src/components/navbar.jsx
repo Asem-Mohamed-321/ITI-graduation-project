@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { NavLink } from "react-router"; 
+import { NavLink } from "react-router-dom"; 
 
 export default function Navbar(){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
