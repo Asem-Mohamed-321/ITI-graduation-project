@@ -1,5 +1,5 @@
 import Navbar from "./components/navbar"
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/Home"
@@ -8,6 +8,8 @@ import Footer from "./components/Footer"
 import "animate.css"
 
 function App() {
+  const location = useLocation();
+  const showFooter = location.pathname === "/home";
   return (
     <>
     <Navbar/>
@@ -18,7 +20,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
     </Routes>
-    <Footer />
+    {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
       <p className="font-bold bg-amber-500 px-10 w-fit m-auto">Welcome to our graduation project main page</p>
     </div> */}

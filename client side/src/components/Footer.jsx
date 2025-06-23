@@ -3,7 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faYoutube, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
-const Footer = () => {
+const Footer = ({ minimal }) => {
+  if (minimal) {
+    return (
+      <footer className="bg-teal-800 dark:bg-slate-800 text-white animate__animated animate__fadeInUp">
+        <div className="max-w-screen-xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+          <hr className="w-full border-t border-teal-700 dark:border-slate-700 mb-2" />
+          <p className="text-xs text-center text-white opacity-80">&copy; {new Date().getFullYear()} Resume Checker. All rights reserved.</p>
+        </div>
+      </footer>
+    );
+  }
   return (
     <footer className="bg-teal-800 dark:bg-slate-800 text-white animate__animated animate__fadeInUp">
       <div className="max-w-screen-xl mx-auto py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
