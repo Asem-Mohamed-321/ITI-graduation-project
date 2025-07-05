@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import YellowButton from "./components/YellowButton"
 import Footer from "./components/Footer"
 import "animate.css"
+import VideoPage from "./assets/pages/VideoPage";
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
+      <Route path='/tips' element={<VideoPage />} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
