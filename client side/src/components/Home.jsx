@@ -1,7 +1,10 @@
 import YellowButton from "./YellowButton"
 import "animate.css"
+import { useNavigate } from "react-router-dom"; 
 
 function Home() {
+  const navigate = useNavigate(); //to navigate to other pages onClick for example
+
   return (
     <>
       {/* Hero Section */}
@@ -15,7 +18,7 @@ function Home() {
             <p className="text-gray-700 dark:text-gray-300 mb-6 text-base md:text-lg max-w-lg leading-relaxed">
               Get instant feedback on your resume with 15 ATS-based checks. See your personalized score in under 1 minute and fix weaknesses before applying to any job.
             </p>
-            <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite">Check Your Resume Score</YellowButton>
+            <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer" onClick={()=>navigate('/upload-cv')}>Check Your Resume Score</YellowButton>
           </div>
           {/* Right: Image/Card */}
           <div className="flex-1 flex justify-center items-center w-full">

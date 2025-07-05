@@ -7,6 +7,8 @@ export default function Navbar(){
 
     const [isDarkMode, setIsDarkMode] = useState(false); //dark mode switch
 
+
+
     useEffect(() => {
         const root = window.document.documentElement;
         if (isDarkMode) {

@@ -8,6 +8,8 @@ import Footer from "./components/Footer"
 import "animate.css"
 import VideoPage from "./assets/pages/VideoPage";
 import Questions from "./assets/pages/Questions";
+import CVUpload from "./components/cvUpload";
+import ScorePage from "./components/scorePage";
 
 function App() {
   const location = useLocation();
@@ -23,6 +25,8 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path='/tips' element={<VideoPage />} />
       <Route path='/questions' element={<Questions/>} />
+      <Route path="upload-cv" element={<CVUpload />} />
+      <Route path="/score" element={<ScorePage />} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">

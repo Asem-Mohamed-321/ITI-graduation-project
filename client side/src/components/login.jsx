@@ -30,7 +30,7 @@ export default function(){
     }
     return (
         <>
-            <div className="flex w-11/12 m-auto mt-5 bg-white">
+            <div className="flex w-11/12 m-auto mt-5 bg-white rounded-lg">
                 <div className="md:w-1/2 w-full pt-40 pb-30 dark:bg-gray-700">
                     <p className="text-center font-extrabold mb-12 dark:text-white">SIGN IN TO THE CV CHECKER</p>
                     <form className="flex flex-col space-y-4 mx-auto  w-fit  md:w-96 px-8 dark:bg-gray-700">
@@ -55,7 +55,7 @@ export default function(){
                     
                 </div >
                 
-                <div className="hidden md:flex md:w-1/2 py-4 px-5 items-center justify-center bg-gray-200 dark:bg-slate-800">
+                <div className="hidden md:flex md:w-1/2 py-4 px-5 items-center justify-center bg-gray-200 dark:bg-slate-800 rounded-r-lg">
                     <div className="aspect-[4/3] w-full ">
                         <img
                         className="w-full h-full object-contain"
