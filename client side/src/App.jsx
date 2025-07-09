@@ -7,6 +7,7 @@ import YellowButton from "./components/YellowButton"
 import Footer from "./components/Footer"
 import "animate.css"
 import VideoPage from "./assets/pages/VideoPage";
+import Questions from "./assets/pages/Questions";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
       <Route path='/tips' element={<VideoPage />} />
+      <Route path='/questions' element={<Questions/>} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
