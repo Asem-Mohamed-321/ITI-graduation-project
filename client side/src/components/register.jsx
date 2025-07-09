@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState ,useRef } from 'react';
 import Select from 'react-select';
 import { NavLink } from 'react-router';
 
 export default function(){
-    
+    const fileInputRef = useRef(null);
+    const [signUpType, setSignUpType] = useState('user'); // 'user' or 'company'
+
     const [step, setStep] = useState(1); // 1 or 2
 
     const [formData, setFormData] = useState({
@@ -64,50 +66,125 @@ export default function(){
         }
         if  (!formData.email){
             setEmptyEmail(true);
-            alert("Please enter an email");
+            // alert("Please enter an email");
             return;
         }
         if(!formData.username){
             setEmptyUsername(true);
-            alert("Please enter a username");
+            // alert("Please enter a username");
             return;
         }
         
         if(!formData.password){
             setEmptyPassword(true);
-            alert("Please enter a password");
+            // alert("Please enter a password");
             return;
         }
 
         if(!formData.picture){
             setEmptyProfilePic(true);
-            alert("Please choose a profile picture");
+            // alert("Please choose a profile picture");
             return;
         }
         setStep(2);
     }
 
-    async function handleSubmit(e){
+    async function handleSubmit(e,signUpType){
         e.preventDefault();
-        setEmptyWorkFields(false);
-        if(selectedFields.length === 0) {
-            setEmptyWorkFields(true);
-            alert("Please select at least one work field");
-            return;
-        }
-        
-        try{
-            const response = await axios.post('http://localhost:3000/auth/sign-up',formData);
-            if(response.data){
-                console.log("Registration successful!");
-                alert("Registration successful!");
+        if(signUpType === 'user'){
+            setEmptyWorkFields(false);
+            if(selectedFields.length === 0) {
+                setEmptyWorkFields(true);
+                // alert("Please select at least one work field");
+                return;
             }
-        } catch (error) {
-            console.error("There was an error during registration:", error);
-            alert("There was an error during registration! Check the console for details.");
+            
+            const updatedFormData = {
+                ...formData,
+                avatar: formData.picture,
+                Fields: selectedFields.map(field => field.value),
+            };
+            try{
+                const response = await axios.post('http://localhost:3000/auth/sign-up',updatedFormData);
+                if(response.data){
+                    console.log("Registration successful!");
+                    alert("Registration successful!");
+                }
+            } catch (error) {
+                console.error("There was an error during registration:", error);
+                // alert("There was an error during registration! Check the console for details.");
+
+                alert(error.response.data.message)
+            }}
+            else if(signUpType === 'company'){
+            setEmptyWorkFields(false);
+            if(selectedFields.length === 0) {
+                setEmptyWorkFields(true);
+                // alert("Please select at least one work field");
+                return;
+            }
+            // const { email, companyName, password, logoFile, Fields  } = formData;
+            const email = formData.email;
+            const companyName = formData.username;
+            const password = formData.password;
+            const logoFile = formData.picture; // Assuming this is a string path to the logo
+            const companyFormData = new FormData();
+            companyFormData.append('email', email);
+            companyFormData.append('companyName', companyName);
+            companyFormData.append('password', password);
+            companyFormData.append('logoFile', logoFile);
+            selectedFields.forEach((field) => {
+                companyFormData.append('Fields[]', field.value);
+            });
+
+            // companyFormData.append('Fields', Fields);
+            const fields = selectedFields.map(field => field.value); // or .label depending on what you want
+            // companyFormData.append('Fields', JSON.stringify(fields));
+            companyFormData.append('description', "sample description")
+
+            // console.log("Company Form Data:", companyFormData);
+            console.log(formData.username, formData.email, formData.password, formData.picture, selectedFields);
+            // console.log(companyFormData.email, companyFormData.companyName, companyFormData.password, companyFormData.logoFile, companyFormData.Fields);
+            // console.log(companyName, email, password, logoFile, Fields);
+            //             const debugObject = {};
+            // companyFormData.forEach((value, key) => {
+            //     debugObject[key] = value;
+            // });
+            // console.log(debugObject);
+
+            try{
+                const response = await axios.post('http://localhost:3000/company/sign-up',companyFormData);
+                if(response.data){
+                    console.log("Company Registration successful!");
+                    alert("Company Registration successful!");
+                }
+            } catch (error) {
+                console.error("There was an error during registration:", error);
+                // alert("There was an error during registration! Check the console for details.");
+                alert(error.response.data.message)
+            }
         }
     }
 
+    function changeType() {
+        setSignUpType(signUpType === 'user' ? 'company' : 'user');
+        setStep(1);
+        setFormData({
+            email: '',
+            username: '',
+            password: '',
+            picture: '',
+            Fields: [],
+        });
+        setConfirmPassword('');
+        setEmptyEmail(false);
+        setEmptyUsername(false);
+        setEmptyPassword(false);
+        setEmptyProfilePic(false);
+        setPasswordNotConfirmed(false);
+        setEmptyWorkFields(false);
+        setSelectedFields([]);
+    }
 
 
     return (
@@ -122,9 +199,11 @@ export default function(){
                         />
                     </div>
                 </div>
-                
-                {step === 1 && (
-                <div className="md:w-1/2 w-full pt-20 pb-35 dark:bg-gray-700">
+
+                {/* User Sign Up Form */ }
+                {step === 1 && signUpType === 'user' && (   
+                <div className="md:w-1/2 w-full  pb-35 dark:bg-gray-700">
+                    <p className='relative top-0 right-0 pb-20 text-right mr-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs' onClick={changeType}>or sign up as a company {">>"}</p>
                     <p className="text-center font-extrabold mb-12 dark:text-white">SIGN UP FOR THE CV CHECKER</p>
                     <form className="flex flex-col space-y-0 mx-auto  w-fit  md:w-96 px-8 dark:bg-gray-700">
                         {/* mx-48 */}
@@ -147,12 +226,12 @@ export default function(){
                             {passwordNotConfirmed && <p className="text-red-600 text-sm sm:text-base font-light italic">passwords don't match</p>}
                         </div>
                         <div>
-                            <input id="picture" type="text" placeholder="Choose profile pic" onChange={handleChange} value={formData.picture} className={`w-full block ${emptyProfilePic ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
-                            {emptyProfilePic && <p className="text-red-600 text-sm sm:text-base font-light italic">Please choose a profile picture</p>}
+                            <input  type="text" placeholder="Choose profile pic" value={formData.picture?.name || ''} onClick={() => fileInputRef.current.click()}  className={`w-full block cursor-pointer ${emptyProfilePic ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
+                            <input type='file' id="picture" className='hidden' ref={fileInputRef} onChange={handleChange}></input>                            {emptyProfilePic && <p className="text-red-600 text-sm sm:text-base font-light italic">Please choose a profile picture</p>}
                         </div>
                         
                         <div>
-                            <button type='button' onClick={firstForm} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign In</button>
+                            <button type='button' onClick={firstForm} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign Up</button>
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
                         <p className="inline font-normal dark:text-slate-400">Already have an account ? <NavLink to="/login" className="inline text-blue-500 dark:text-blue-300">Login</NavLink></p>
@@ -160,7 +239,49 @@ export default function(){
                     </div>
                     </form>
                     
+
+                </div >)}
+
+                {/* Company Sign Up Form */ }
+                {step === 1 && signUpType === 'company' && (<div className="md:w-1/2 w-full  pb-35 dark:bg-gray-700">
+                    <p className='relative top-0 right-0 pb-20 text-right mr-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs' onClick={changeType}>or sign up as an employee {">>"}</p>
+                    <p className="text-center font-extrabold mb-12 dark:text-white">SIGN UP TO FIND BEST CANDIDATES</p>
+                    <form className="flex flex-col space-y-0 mx-auto  w-fit  md:w-96 px-8 dark:bg-gray-700">
+                        {/* mx-48 */}
+                        <div>
+                            <input id="email" type="text" placeholder="Company mail" onChange={handleChange} value={formData.email} className={`w-full block ${emptyEmail ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
+                            {emptyEmail && <p className="text-red-600 text-sm sm:text-base font-light italic">Please enter an email</p>}
+                        </div>
+                        <div>
+                            <input id="username" type="text" placeholder="Company name" onChange={handleChange} value={formData.username}   className={`w-full block ${emptyUsername ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
+                            {emptyUsername && <p className="text-red-600 text-sm sm:text-base font-light italic">Please enter a username</p>}
+                        </div>
+                        <div>
+                            {/* <label className="text-sm font-bold dark:text-white" htmlFor="password">Password</label> */}
+                            {/* <input id="password" type="password" placeholder="Password" className="w-full border-2 border-gray-300 rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500" /> */}
+                            <input id="password" type="password" placeholder="Password" onChange={handleChange} value={formData.password} className={` block w-full  ${emptyPassword ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-red-500-700 dark:bg-slate-800 dark:text-white`} />
+                            {emptyPassword && <p className="text-red-600 text-sm sm:text-base font-light italic">Please choose a password</p>}
+                        </div>
+                        <div>
+                            <input id="confirmPassword" type="password" placeholder="Confirm password" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} className={`w-full block ${passwordNotConfirmed ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
+                            {passwordNotConfirmed && <p className="text-red-600 text-sm sm:text-base font-light italic">passwords don't match</p>}
+                        </div>
+                        <div>
+                            <input  type="text" placeholder="Choose profile pic" value={formData.picture?.name || ''} onClick={() => fileInputRef.current.click()}  className={`w-full block cursor-pointer ${emptyProfilePic ? 'border-1 border-red-500' : 'border-2 border-gray-300'} rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`} />
+                            <input type='file' id="picture" className='hidden' ref={fileInputRef} onChange={handleChange}></input>
+                            {emptyProfilePic && <p className="text-red-600 text-sm sm:text-base font-light italic">Please choose a profile picture</p>}
+                        </div>
+                        
+                        <div>
+                            <button type='button' onClick={firstForm} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign Up</button>
+                        </div>
+                        <div className="mx-auto  mt-2 text-xs ">
+                        <p className="inline font-normal dark:text-slate-400">Already have an account ? <NavLink to="/login" className="inline text-blue-500 dark:text-blue-300">Login</NavLink></p>
                     
+                    </div>
+                    </form>
+                    
+
                 </div >)}
 
                 {step === 2 && (
@@ -199,7 +320,7 @@ export default function(){
                         
                         <div>
                             <button type='button' onClick={() => setStep(1)} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Back</button>
-                            <button type='submit' onClick={handleSubmit} className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Submit</button>
+                            <button type='submit' onClick={(e)=>handleSubmit(e,signUpType)} className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Submit</button>
 
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
@@ -210,6 +331,7 @@ export default function(){
                     
                     
                 </div>)}
+
             </div>
         </>
     )

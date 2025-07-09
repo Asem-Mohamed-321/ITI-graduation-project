@@ -10,10 +10,13 @@ import VideoPage from "./assets/pages/VideoPage";
 import Questions from "./assets/pages/Questions";
 import CVUpload from "./components/cvUpload";
 import ScorePage from "./components/scorePage";
+import { useState } from "react";
 
 function App() {
   const location = useLocation();
   const showFooter = location.pathname === "/home";
+
+  const[cvScore, setCvScore] = useState({});
   return (
     <>
     <Navbar/>
@@ -27,6 +30,8 @@ function App() {
       <Route path='/questions' element={<Questions/>} />
       <Route path="upload-cv" element={<CVUpload />} />
       <Route path="/score" element={<ScorePage />} />
+      <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
+      <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">

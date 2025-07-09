@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState,useRef } from "react";
-export default function CVUpload() {
+export default function CVUpload({passCvResults}) {
     const [step, setStep] = useState(1); // 1: Upload Resume, 2: Job Description, 3: Results
     const [role, setRole] = useState([
                                     'Big Data Engineer',
@@ -36,8 +37,23 @@ export default function CVUpload() {
 
   const [jobDescription, setJobDescription] = useState("");
 
-  const handleSecondStep = () => {
+  const  handleSecondStep = async () => {
     setStep(3); // Move to results step
+    await axios.post('http://localhost:3000/score-cv/analyze', {
+      cvFile: resumeFile,
+      jobDescription: jobDescription
+    },{headers: {
+    'Content-Type': 'multipart/form-data',
+  }})
+      .then(response => {
+        passCvResults(response.data); // Pass the results to parent component
+        console.log("Scan results:", response.data);
+        // Handle the response data as needed
+      })
+      .catch(error => {
+        console.error("Error during scan:", error);
+        // Handle the error as needed
+      });   
   }
 
   console.log(resumeFile)
