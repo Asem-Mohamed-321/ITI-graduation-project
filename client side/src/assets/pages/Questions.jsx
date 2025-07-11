@@ -18,7 +18,8 @@ function transformTests(testsArray) {
 
 export default function Questions() {
   const location = useLocation();
-  const { tests } = location.state || {};
+  let { tests } = location.state || {};
+  tests = tests.slice(0, 5);
   const questionsData = transformTests(tests);
 
   const [answers, setAnswers] = useState({});
