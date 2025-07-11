@@ -58,7 +58,7 @@ function ATSBridge() {
   const selectVideo = (newIndex) => {
     setIndex(newIndex);
   };
-
+  
   useEffect(() => {
     if (playerRef.current && videos[index].type === 'iframe') {
       playerRef.current.src = videos[index].url;
@@ -67,7 +67,7 @@ function ATSBridge() {
 
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white text-black dark:bg-slate-900 dark:text-white rounded-lg shadow-md">
-
+      
       <div className="flex flex-col md:flex-row gap-6">
         <div className="flex-1">
           <div className="bg-black rounded-lg overflow-hidden aspect-video">

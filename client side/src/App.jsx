@@ -11,6 +11,7 @@ import Questions from "./assets/pages/Questions";
 import CVUpload from "./components/cvUpload";
 import ScorePage from "./components/scorePage";
 import { useState } from "react";
+import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
       <Route path="/score" element={<ScorePage />} />
       <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
       <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
+      <Route path='basic-scan' element={<CVUploadWithNoDesc/>} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
