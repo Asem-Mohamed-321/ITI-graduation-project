@@ -105,9 +105,9 @@ export default function Questions() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-slate-900 dark:text-white p-4">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 dark:bg-slate-900 dark:text-white p-4">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow mr-4 h-fit">
+      <div className="md:w-1/4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow mr-4 h-fit">
         <h1 className="text-xl font-bold mb-4">Questions</h1>
         <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded mb-6">
           <div className="font-semibold">Timer</div>
