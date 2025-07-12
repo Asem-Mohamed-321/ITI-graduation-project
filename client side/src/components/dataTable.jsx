@@ -78,14 +78,14 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
           <button
             onClick={() => setCurrentPage(p => p - 1)}
             disabled={currentPage === 1}
-            className="px-2 py-1 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-2 py-1 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             &lt;
           </button>
           <button
             onClick={() => setCurrentPage(p => p + 1)}
             disabled={currentPage === totalPages}
-            className="px-2 py-1 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-2 py-1 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             &gt;
           </button>
@@ -98,12 +98,13 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
           <div className="bg-white p-6 rounded-md shadow w-[300px]">
             <h2 className="text-lg font-semibold mb-4">Are you sure?</h2>
             <p className="mb-6 text-sm text-gray-600">
-              This will delete <strong>{selectedItem?.fullName || selectedItem?.username}</strong>.
+              This will delete <strong>    {selectedItem?.companyName || selectedItem?.fullName || selectedItem?.username}
+</strong>.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
               >
                 Cancel
               </button>
@@ -112,7 +113,7 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
                   onDelete(selectedItem);
                   setShowDeleteConfirm(false);
                 }}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer"
               >
                 Delete
               </button>
