@@ -20,6 +20,10 @@ import UserList from "./components/userList";
 import Resumes from "./components/resumes";
 import JobDescriptions from "./components/jobDescriptions";
 import { useState } from "react";
+import Profile from "./components/Profile";
+import CompanyProfilePage from "./components/CompanyProfilePage";
+import NotFound from "./components/NotFound";
+import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
 
 function App() {
   const location = useLocation();
