@@ -46,6 +46,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path='/tips' element={<VideoPage />} />
       <Route path='/questions' element={<Questions/>} />
+      <Route path='/basic-scan' element={<CVUploadWithNoDesc/>} />
       {/* <Route path="upload-cv" element={<CVUpload />} /> */}
       {/* <Route path="/score" element={<ScorePage />} /> */}
       <Route path="upload-cv" element={<CVUpload cvScore={cvScore} passCvResults={setCvScore} />} />
