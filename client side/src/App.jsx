@@ -11,6 +11,9 @@ import Questions from "./assets/pages/Questions";
 import CVUpload from "./components/cvUpload";
 import ScorePage from "./components/scorePage";
 import { useState } from "react";
+import Profile from "./components/Profile";
+import CompanyProfilePage from "./components/CompanyProfilePage";
+import NotFound from "./components/NotFound";
 
 function App() {
   const location = useLocation();
@@ -19,24 +22,23 @@ function App() {
   const[cvScore, setCvScore] = useState({});
   return (
     <>
-    <Navbar/>
-
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home />} />
-      <Route path='/tips' element={<VideoPage />} />
-      <Route path='/questions' element={<Questions/>} />
-      <Route path="upload-cv" element={<CVUpload />} />
-      <Route path="/score" element={<ScorePage />} />
-      <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
-      <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
-    </Routes>
-    {showFooter && <Footer />}
-    {/* <div className="w-full mt-4">
-      <p className="font-bold bg-amber-500 px-10 w-fit m-auto">Welcome to our graduation project main page</p>
-    </div> */}
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
+        <Route path='/tips' element={<VideoPage />} />
+        <Route path='/questions' element={<Questions/>} />
+        <Route path="upload-cv" element={<CVUpload />} />
+        <Route path="/score" element={<ScorePage />} />
+        <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
+        <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/company-profile" element={<CompanyProfilePage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {showFooter && <Footer />}
     </>
   )
 }
