@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState ,useRef } from 'react';
 import Select from 'react-select';
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 export default function(){
     const fileInputRef = useRef(null);

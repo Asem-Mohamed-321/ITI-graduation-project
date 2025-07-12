@@ -24,16 +24,16 @@ import Profile from "./components/Profile";
 import CompanyProfilePage from "./components/CompanyProfilePage";
 import NotFound from "./components/NotFound";
 import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
+import AboutUs from "./components/AboutUs";
+import FAQ from "./components/FAQ";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-
 
   const location = useLocation();
   const showFooter = location.pathname === "/home";
 
   const[cvScore, setCvScore] = useState({});
-
 
   return (
     <>
@@ -44,20 +44,20 @@ function App() {
       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
-      <Route path='/tips' element={<VideoPage />} />
-      <Route path='/questions' element={<Questions/>} />
-      <Route path='/basic-scan' element={<CVUploadWithNoDesc/>} />
-      {/* <Route path="upload-cv" element={<CVUpload />} /> */}
-      {/* <Route path="/score" element={<ScorePage />} /> */}
-      <Route path="upload-cv" element={<CVUpload cvScore={cvScore} passCvResults={setCvScore} />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/faq" element={<FAQ />} />
+      <Route path="/tips" element={<VideoPage />} />
+      <Route path="/questions" element={<Questions/>} />
+      <Route path="/basic-scan" element={<CVUploadWithNoDesc/>} />
+      <Route path="/upload-cv" element={<CVUpload cvScore={cvScore} passCvResults={setCvScore} />} />
       <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
       <Route path="/company" element={<CompanyPage />}>
         {/* Nested routes */}
         <Route path="profile" element={<CompanyProfile />} />
         <Route path="add-job" element={<AddJob />} />
       </Route>
-      <Route path="admin" element={<AdminPage/>}>
-      {/*nested admin routes */}
+      <Route path="/admin" element={<AdminPage/>}>
+        {/*nested admin routes */}
         <Route path="dashboard" element={<Dashboard/>}></Route>
         <Route path="users-list" element={<UserList/>}></Route>
         <Route path="resumes" element={<Resumes/>}></Route>

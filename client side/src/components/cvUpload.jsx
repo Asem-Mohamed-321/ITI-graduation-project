@@ -1,7 +1,7 @@
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { useState,useRef } from "react";
 import {rolesSamples}  from "./roles.js"
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 export default function CVUpload({passCvResults ,cvScore}) {
     const [step, setStep] = useState(1); // 1: Upload Resume, 2: Job Description, 3: Results
     const [roles,setRoles] = useState(rolesSamples)// Selected role from the list

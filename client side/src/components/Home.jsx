@@ -147,7 +147,7 @@ function Home() {
                 </p>
               </div>
               <div className="flex-1 mt-6 md:mt-0">
-                <img src="/images/1.png" alt="Import Resume" className="rounded-lg shadow-xl w-full h-auto" />
+                <img src="/images/c1.png" alt="Import Resume" className="rounded-lg shadow-xl w-full h-auto" />
               </div>
             </div>
 
@@ -168,7 +168,7 @@ function Home() {
                 </p>
               </div>
               <div className="flex-1 md:order-1">
-                <img src="/images/2.png" alt="Analyze Score" className="rounded-lg shadow-xl w-full h-auto" />
+                <img src="/images/c2.png" alt="Analyze Score" className="rounded-lg shadow-xl w-full h-auto" />
               </div>
             </div>
 
@@ -189,30 +189,135 @@ function Home() {
                 </p>
               </div>
               <div className="flex-1 mt-6 md:mt-0">
-                <img src="/images/3.png" alt="Review Results" className="rounded-lg shadow-xl w-full h-auto" />
+                <img src="/images/c3.png" alt="Review Results" className="rounded-lg shadow-xl w-full h-auto" />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Step 4 */}
-            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16 animate__animated animate__fadeInUp animate__delay-3s">
-              <div className="flex-1 mt-6 md:mt-0 md:order-2">
-                <div className="flex items-center mb-4">
-                  <div className="relative w-16 h-20 mr-4">
-                    <svg className="w-full h-full text-teal-600 dark:text-white" fill="currentColor" viewBox="0 0 48 56">
-                      <path d="M48 56L24 42L0 56V0H48V56Z" />
-                    </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-white dark:text-slate-800 text-3xl font-bold">4</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Make Improvements to Increase Your Resume Score</h3>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">
-                  From here, simply make the appropriate changes to resolve the issues, and you'll see your resume score updated in real-time. That's it! Check your resume score to start making enhancements within minutes.
-                </p>
+      {/* Divider */}
+      <div className="flex justify-center my-0">
+        <hr className="w-1/3 border-t border-gray-300 dark:border-gray-700" />
+      </div>
+
+      {/* CV Improvement Courses Section */}
+      <section className="w-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-900 py-16 md:py-24 animate__animated animate__fadeInUp">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 animate__animated animate__fadeInUp">
+              Master CV Writing with Expert Tutorials
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1s">
+              Take your resume to the next level with our comprehensive video library. Learn from industry experts how to craft compelling resumes that get you noticed by top employers.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 text-center animate__animated animate__fadeInUp animate__delay-1s">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="material-icons text-2xl text-blue-600 dark:text-blue-300">play_circle</span>
               </div>
-              <div className="flex-1 md:order-1">
-                <img src="/images/4.png" alt="Increase Score" className="rounded-lg shadow-xl w-full h-auto" />
-              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Step-by-Step Guides</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Follow detailed tutorials covering every aspect of resume writing, from structure to content optimization.
+              </p>
             </div>
+            
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 text-center animate__animated animate__fadeInUp animate__delay-2s">
+              <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="material-icons text-2xl text-indigo-600 dark:text-indigo-300">school</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Industry Best Practices</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                Learn proven strategies used by successful professionals to create resumes that pass ATS systems.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 text-center animate__animated animate__fadeInUp animate__delay-3s">
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="material-icons text-2xl text-purple-600 dark:text-purple-300">trending_up</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Real Examples</h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                See before-and-after examples of resumes that transformed careers and landed dream jobs.
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex justify-center animate__animated animate__fadeInUp animate__delay-3s">
+            <YellowButton 
+              className="py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer"
+              onClick={() => navigate('/tips')}
+            >
+              Start Learning Now
+            </YellowButton>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center my-0">
+        <hr className="w-1/3 border-t border-gray-300 dark:border-gray-700" />
+      </div>
+
+      {/* FAQ Section */}
+      <section className="w-full bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-slate-800 dark:to-slate-900 py-16 md:py-24 animate__animated animate__fadeInUp">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 animate__animated animate__fadeInUp">
+              Got Questions? We Have Answers
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1s">
+              Everything you need to know about our ATS resume checker, CV improvement tools, and how to maximize your job application success rate.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 animate__animated animate__fadeInUp animate__delay-1s">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mr-4">
+                  <span className="material-icons text-xl text-emerald-600 dark:text-emerald-300">help</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">How It Works</h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                Learn how our AI-powered resume checker analyzes your CV and provides actionable feedback to improve your score.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 animate__animated animate__fadeInUp animate__delay-2s">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center mr-4">
+                  <span className="material-icons text-xl text-teal-600 dark:text-teal-300">security</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Privacy & Security</h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                Understand how we protect your personal information and ensure your resume data remains confidential.
+              </p>
+            </div>
+            
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 animate__animated animate__fadeInUp animate__delay-3s">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-cyan-100 dark:bg-cyan-900 rounded-full flex items-center justify-center mr-4">
+                  <span className="material-icons text-xl text-cyan-600 dark:text-cyan-300">support_agent</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Support & Tips</h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
+                Get expert advice on resume optimization, ATS compatibility, and strategies to stand out in competitive job markets.
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex justify-center animate__animated animate__fadeInUp animate__delay-3s">
+            <YellowButton 
+              className="py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer"
+              onClick={() => navigate('/faq')}
+            >
+              Explore All Questions
+            </YellowButton>
           </div>
         </div>
       </section>
