@@ -111,8 +111,10 @@ export default function CompanyPage() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow p-6 z-0 w-10/12 sm:w-11/12 sm:ml-16 mx-15">
-        <Outlet />
+      <main className="flex-grow min-h-screen flex items-center justify-center p-4 sm:p-8 md:p-12 z-0 w-full sm:ml-16">
+        <div className="w-full max-w-2xl">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
