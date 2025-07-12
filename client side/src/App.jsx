@@ -14,6 +14,7 @@ import { useState } from "react";
 import Profile from "./components/Profile";
 import CompanyProfilePage from "./components/CompanyProfilePage";
 import NotFound from "./components/NotFound";
+import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
 
 function App() {
   const location = useLocation();
@@ -30,12 +31,11 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path='/tips' element={<VideoPage />} />
         <Route path='/questions' element={<Questions/>} />
-        <Route path="upload-cv" element={<CVUpload />} />
-        <Route path="/score" element={<ScorePage />} />
         <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
         <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/company-profile" element={<CompanyProfilePage />} />
+        <Route path='basic-scan' element={<CVUploadWithNoDesc/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {showFooter && <Footer />}

@@ -1,47 +1,35 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 
-const questionsData = {
-  cpp: [
-    {
-      id: "cpp1",
-      question: "What is the primary use case for pointers in C++?",
-      choices: [
-        "Storing integers values",
-        "Indirectly accessing memory location",
-        "Defining constant variables",
-      ],
-      correctAnswer: "Indirectly accessing memory location",
-    },
-    {
-      id: "cpp2",
-      question: "What is the difference between 'class' and 'struct' in C++?",
-      choices: [
-        "'class' members are public by default, while 'struct' members are private",
-        "'struct' members are public by default, while 'class' members are private",
-        "There is no difference",
-      ],
-      correctAnswer:
-        "'struct' members are public by default, while 'class' members are private",
-    },
-  ],
-  javascript: [
-    {
-      id: "js1",
-      question: "What does 'DOM' stand for in JavaScript?",
-      choices: [
-        "Document Object Model",
-        "Data Object Management",
-        "Digital Output Mechanism",
-      ],
-      correctAnswer: "Document Object Model",
-    },
-  ],
-};
+function transformTests(testsArray) {
+  const result = {};
+  testsArray.forEach((categoryObj) => {
+    const [category, questions] = Object.entries(categoryObj)[0];
+    result[category.toLowerCase()] = questions.map((q, idx) => ({
+      id: `${category.toLowerCase()}${idx + 1}`,
+      question: q.content,
+      choices: q.choices,
+      correctAnswer: q.choices.find(c => c.startsWith(q["correct answer"] + "."))
+    }));
+  });
+  return result;
+}
+
 
 export default function Questions() {
+  const location = useLocation();
+  let { tests } = location.state || {};
+  tests = tests.slice(0, 5);
+  const questionsData = transformTests(tests);
+
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+  useEffect(() => {
+    console.log("Loaded tests:", tests);
+  }, []);
+
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};
     Object.keys(questionsData).forEach((topic) => {
@@ -118,6 +106,7 @@ export default function Questions() {
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-slate-900 dark:text-white p-4">
+      {/* Sidebar */}
       <div className="w-1/4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow mr-4 h-fit">
         <h1 className="text-xl font-bold mb-4">Questions</h1>
         <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded mb-6">
@@ -142,15 +131,22 @@ export default function Questions() {
         </div>
       </div>
 
+      {/* Main Questions */}
       <div className="flex-1 space-y-4">
         {Object.entries(questionsData).map(([topic, questions]) => (
-          <div key={topic} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <div
+            key={topic}
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow"
+          >
             <h2 className="text-lg font-semibold mb-4">
               {topic.charAt(0).toUpperCase() + topic.slice(1)}
             </h2>
             <div className="space-y-4">
               {questions.map((q, index) => (
-                <div key={q.id} className="bg-gray-50 dark:bg-gray-700 p-4 rounded">
+                <div
+                  key={q.id}
+                  className="bg-gray-50 dark:bg-gray-700 p-4 rounded"
+                >
                   <p className="font-medium mb-3">
                     {index + 1}. {q.question}
                   </p>
@@ -188,6 +184,7 @@ export default function Questions() {
         </div>
       </div>
 
+      {/* Results Modal */}
       {showResults && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-lg w-1/2 text-black dark:text-white">
