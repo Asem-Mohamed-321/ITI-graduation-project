@@ -64,6 +64,8 @@ function App() {
         <Route path="job-desc-list" element={<JobDescriptions/>}></Route>
 
       </Route>
+      <Route path="/user/profile" element={<Profile />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
