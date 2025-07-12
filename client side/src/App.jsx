@@ -10,6 +10,15 @@ import VideoPage from "./assets/pages/VideoPage";
 import Questions from "./assets/pages/Questions";
 import CVUpload from "./components/cvUpload";
 import ScorePage from "./components/scorePage";
+import CompanyPage from "./components/companyPage";
+import CompanyProfile from "./components/CompanyProfile";
+import AddJob from "./components/AddJob";
+import AdminPage from "./components/adminPage";
+import Dashboard from "./components/dashboard";
+import CompanyList from "./components/companiesList";
+import UserList from "./components/userList";
+import Resumes from "./components/resumes";
+import JobDescriptions from "./components/jobDescriptions";
 import { useState } from "react";
 
 function App() {
@@ -32,6 +41,20 @@ function App() {
       <Route path="/score" element={<ScorePage />} />
       <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
       <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
+      <Route path="/company" element={<CompanyPage />}>
+        {/* Nested routes */}
+        <Route path="profile" element={<CompanyProfile />} />
+        <Route path="add-job" element={<AddJob />} />
+      </Route>
+      <Route path="admin" element={<AdminPage/>}>
+      {/*nested admin routes */}
+        <Route path="dashboard" element={<Dashboard/>}></Route>
+        <Route path="users-list" element={<UserList/>}></Route>
+        <Route path="resumes" element={<Resumes/>}></Route>
+        <Route path="companies-list" element={<CompanyList/>}></Route>
+        <Route path="job-desc-list" element={<JobDescriptions/>}></Route>
+
+      </Route>
     </Routes>
     {showFooter && <Footer />}
     {/* <div className="w-full mt-4">
