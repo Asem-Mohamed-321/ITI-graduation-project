@@ -1,21 +1,11 @@
 import axios from "axios";
 import { useState,useRef } from "react";
-export default function CVUpload({passCvResults}) {
+import {rolesSamples}  from "./roles.js"
+import { NavLink } from "react-router";
+export default function CVUpload({passCvResults ,cvScore}) {
     const [step, setStep] = useState(1); // 1: Upload Resume, 2: Job Description, 3: Results
-    const [role, setRole] = useState([
-                                    'Big Data Engineer',
-                                    'DevOps Engineer',
-                                    'Full-Stack Engineer',
-                                    'Big Data Engineer',
-                                    'DevOps Engineer',
-                                    'Full-Stack Engineer',
-                                    'Big Data Engineer',
-                                    'DevOps Engineer',
-                                    'Full-Stack Engineer',
-                                    'Big Data Engineer',
-                                    'DevOps Engineer',
-                                    'Full-Stack Engineer'
-                                ]); // Selected role from the list
+    const [roles,setRoles] = useState(rolesSamples)// Selected role from the list
+    const [isLoading,setIsLoading] = useState(false)
 
     const [resumeFile, setResumeFile] = useState(null);
                             
@@ -39,6 +29,7 @@ export default function CVUpload({passCvResults}) {
 
   const  handleSecondStep = async () => {
     setStep(3); // Move to results step
+    setIsLoading(true)
     await axios.post('http://localhost:3000/score-cv/analyze', {
       cvFile: resumeFile,
       jobDescription: jobDescription
@@ -48,6 +39,7 @@ export default function CVUpload({passCvResults}) {
       .then(response => {
         passCvResults(response.data); // Pass the results to parent component
         console.log("Scan results:", response.data);
+        setIsLoading(false)
         // Handle the response data as needed
       })
       .catch(error => {
@@ -58,6 +50,8 @@ export default function CVUpload({passCvResults}) {
 
   console.log(resumeFile)
   console.log(step)
+  console.log(cvScore)
+  
   return (
     <>
         <div className="my-5 mx-10 bg-white ">
@@ -148,14 +142,14 @@ export default function CVUpload({passCvResults}) {
                             <td className="align-top">
                             <div className="h-full overflow-y-auto py-1">
                                 <ul className="space-y-1 font-normal text-black">
-                                {role.map((role, index) => (
-                                    <li
+                                {roles.map((role, index) => (
+                                <li
                                     key={index}
-                                    className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 p-1 "
-                                    onClick={() => setJobDescription(role)}
-                                    >
-                                    {role}
-                                    </li>
+                                    className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 p-1"
+                                    onClick={() => setJobDescription(role.description)}
+                                >
+                                    {role.title}
+                                </li>
                                 ))}
                                 </ul>
                             </div>
@@ -173,11 +167,19 @@ export default function CVUpload({passCvResults}) {
                         <tr>
                             <td className="align-middle text-center">
                             <p className="font-bold">PLEASE WAIT...</p>
+                            {isLoading && 
+                            <>
+                            <p>Loading ...</p>
+                            <p className="font-bold">PLEASE WAIT...</p></>}
+                            {!isLoading && <NavLink to={'/score'}>click here to see your score </NavLink>}
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>}
+
+  
+
             </div>
         </div>
     </>

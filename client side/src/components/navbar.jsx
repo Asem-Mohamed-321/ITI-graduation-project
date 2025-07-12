@@ -1,11 +1,13 @@
 import { useState,useEffect } from "react";
 import { NavLink } from "react-router-dom"; 
 
-export default function Navbar(){
+export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // settings dropdown in mobile view
 
     const [isDarkMode, setIsDarkMode] = useState(false); //dark mode switch
+
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
 
 
@@ -53,7 +55,7 @@ export default function Navbar(){
                         <div className="hidden sm:ml-6 sm:block">
                         <div className="flex space-x-2">
                             <a href="#" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</a>
-                            <a href="#" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</a>
+                            <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</NavLink>
                             </div>
                         </div>
                     </div>
@@ -64,8 +66,62 @@ export default function Navbar(){
                                 <input type="checkbox" value="" className="sr-only peer" onChange={() => {setIsDarkMode(prev => !prev);console.log(isDarkMode)}}></input>
                                 <div className="relative w-11 h-6 bg-[#787880]/[0.16]   rounded-full peer dark:bg-[#787880]/[0.16] peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
                             </label>
-                            <NavLink to={'/register'} className=" cursor-pointer ml-5 h-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800  py-2 px-4 border border-white rounded">Sign up</NavLink>
-                            <NavLink to={'/login'} className=" cursor-pointer ml-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800 py-2 px-4 border border-white rounded">Login</NavLink>
+                            {!isLoggedIn && (
+                                <>
+                                    <NavLink to={'/register'} className=" cursor-pointer ml-5 h-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800  py-2 px-4 border border-white rounded">Sign up</NavLink>
+                                    <NavLink to={'/login'} className=" cursor-pointer ml-10 bg-transparent  text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800 py-2 px-4 border border-white rounded">Login</NavLink>
+                                                            
+                                </>
+                            )}
+                            {/* Profile image if logged in */}
+                            {isLoggedIn && (
+                            <div className="relative ml-4">
+                                <button
+                                type="button"
+                                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
+                                id="user-menu-button"
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                                                    onClick={() => setIsProfileDropdownOpen(prev => !prev)}
+
+                                >
+                                <span className="absolute -inset-1.5"></span>
+                                <span className="sr-only">Open user menu</span>
+                                <img
+                                    className="size-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt="User profile"
+
+                                />
+                                </button>
+
+                                {/* Dropdown */}
+                                {isProfileDropdownOpen && (
+  <div
+    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-slate-800"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="user-menu-button"
+  >
+    <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700" role="menuitem">Your Profile</a>
+    <button
+      onClick={() => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        setIsProfileDropdownOpen(false);
+        navigate("/login");
+      }}
+      className="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700"
+      role="menuitem"
+    >
+      Sign out
+    </button>
+  </div>
+)}
+
+                            </div>
+                            )}
+
                         </div>
                         {/* <!-- Profile dropdown --> */}
                         <div className="relative ">
@@ -83,8 +139,25 @@ export default function Navbar(){
                         
                             {isMobileDropdownOpen && ( //if dropdown is clicked
                             <div className="sm:hidden block absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-slate-900 dark:ring-black/5 " role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
+                                
+                                {(!isLoggedIn && 
+                                <>
                                 <NavLink to='/register' className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Sign up</NavLink>
                                 <NavLink to='/login' className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Login</NavLink>
+                                </>
+                                )}
+                                {(isLoggedIn && 
+                                <>
+                                <NavLink to='/login'  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Your profile</NavLink>
+                                <NavLink to='/login'  onClick={() => {
+                                    localStorage.removeItem("token");
+                                    setIsLoggedIn(false);
+                                    setIsProfileDropdownOpen(false);
+                                    navigate("/login");
+                                }}  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Sign out</NavLink>
+                                </>
+                                )}
+
                                 <div className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:hover:bg-slate-600 dark:text-white" role="menuitem" tabIndex="-1" id="user-menu-item-2">
                                     <label className="inline-flex items-center justify-between w-full cursor-pointer">
                                     <span>Dark mode</span>
@@ -102,7 +175,7 @@ export default function Navbar(){
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
                     <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white" aria-current="page">About us</a>
-                    <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white">Courses</a>
+                    <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white">Courses</NavLink>
                 </div>
             </div>)}
         </nav>

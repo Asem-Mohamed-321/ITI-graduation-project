@@ -26,24 +26,29 @@ import NotFound from "./components/NotFound";
 import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+
+
   const location = useLocation();
   const showFooter = location.pathname === "/home";
 
   const[cvScore, setCvScore] = useState({});
+
+
   return (
     <>
-    <Navbar/>
+    <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
 
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn}/>} />
+      <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
       <Route path='/tips' element={<VideoPage />} />
       <Route path='/questions' element={<Questions/>} />
-      <Route path="upload-cv" element={<CVUpload />} />
-      <Route path="/score" element={<ScorePage />} />
-      <Route path="upload-cv" element={<CVUpload passCvResults={setCvScore} />} />
+      {/* <Route path="upload-cv" element={<CVUpload />} /> */}
+      {/* <Route path="/score" element={<ScorePage />} /> */}
+      <Route path="upload-cv" element={<CVUpload cvScore={cvScore} passCvResults={setCvScore} />} />
       <Route path="/score" element={<ScorePage cvScore={cvScore} />} />
       <Route path="/company" element={<CompanyPage />}>
         {/* Nested routes */}

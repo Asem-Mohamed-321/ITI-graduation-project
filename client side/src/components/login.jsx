@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router';
-export default function(){
+export default function({setIsLoggedIn}){
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -19,6 +19,8 @@ export default function(){
             if (response.data) {
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("username", username);
+                setIsLoggedIn(true);
+
                 console.log("Login successful!");
                 alert("Login successful!");
             }
