@@ -84,6 +84,7 @@ function App() {
   //     console.log(decodedToken);
   //   }
   // };
+  // console.log(jwtDecode(token))
   return (
     <>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />

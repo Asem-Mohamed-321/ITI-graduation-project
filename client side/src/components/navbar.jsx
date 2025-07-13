@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import { NavLink , useNavigate } from "react-router-dom"; 
+import { jwtDecode } from "jwt-decode";
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
@@ -10,8 +11,24 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const navigate = useNavigate();
 
-    const userType = localStorage.getItem("type")
+    const userType = localStorage.token ? jwtDecode(localStorage.token).role? jwtDecode(localStorage.token).role:"company" : null
 
+    const pp = () => {
+    const decoded = jwtDecode(localStorage.token);
+
+  // If no role => company
+  if (!decoded.role) {
+    return decoded.logoFile || "/images/companyLogo.png";
+  }
+
+  // If user
+  if (decoded.role === 'user') {
+    return decoded.avatar || "/images/profile_unset.svg";
+  }
+
+  // Else: assume admin
+  return decoded.avatar || "/images/profile_unset.svg";
+};
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -22,6 +39,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
         }
     }, [isDarkMode]);
 
+    console.log(userType)
     return(
         <>
         <nav className="bg-cyan-500 dark:bg-slate-800">
@@ -90,7 +108,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                             <div className="relative ml-4">
                                 <button
                                 type="button"
-                                className="relative flex rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
+                                className="cursor-pointer relative flex rounded-full bg-gray-800 text-sm focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800"
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
@@ -99,8 +117,9 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                 <span className="absolute -inset-1.5"></span>
                                 <span className="sr-only">Open user menu</span>
                                 <img
-                                    className="size-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    className="size-8 rounded-full "
+                                    // src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    src={pp()}
                                     alt="User profile"
                                 />
                                 </button>
