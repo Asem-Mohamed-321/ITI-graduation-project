@@ -68,6 +68,7 @@ export class ScoreCvController {
     if (result.error == true) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
     } else {
+    console.log('[DEBUG] Saving CV for user:', user.id, user.username);
     const cvFileUrl = await saveResource(
       file.buffer,
       user.username,
@@ -77,16 +78,17 @@ export class ScoreCvController {
 
       const pdf = await import("pdf-parse");
       const pdfData = await pdf(file.buffer);
-
-    await this.scoreCvService.saveScore({
+    const saveData = {
       userId: user.id,
       username: user.username,
       cvText: pdfData.text,
       jobDescription,
-        jobSection: user.Fields || [],
+      jobSection: user.Fields || [],
       scoreResult: result,
       cvFileUrl,
-    });
+    };
+    console.log('[DEBUG] saveScore data:', saveData);
+    await this.scoreCvService.saveScore(saveData);
     }
     return result;
   }

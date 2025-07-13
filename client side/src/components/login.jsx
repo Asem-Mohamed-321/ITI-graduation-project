@@ -54,7 +54,7 @@ export default function({setIsLoggedIn}){
 
 const targetPage =
   !decoded.role ? '/company' :
-  decoded.role === 'user' ? '/user' :
+  decoded.role === 'user' ? '/home' :
   '/admin';
       navigate(targetPage)
     }

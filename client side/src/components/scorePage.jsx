@@ -1,6 +1,13 @@
 import ScoreList from "./scoreList";
 import ScorePercentagePanel from "./scorePrecentagePanel";
 export default function ScorePage({ cvScore }) {
+  if (!cvScore || !cvScore.sections || !cvScore.breakdown) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[300px] text-lg text-gray-600">
+        No scan results found. Please upload and scan a CV first.
+      </div>
+    );
+  }
   const sectionGroups = {
     Profile: ["contact_information", "professional_summary", "languages"],
     Education: ["education", "certifications"],
