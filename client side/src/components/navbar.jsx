@@ -86,10 +86,66 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                         {/* Centered navigation links */}
                         <div className="hidden sm:flex items-center justify-center flex-1">
                             <div className="flex space-x-6">
-                                <NavLink to="/home" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">Home</NavLink>
-                                <NavLink to="/about" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105" aria-current="page">About us</NavLink>
-                                <NavLink to="/tips" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">Courses</NavLink>
-                                <NavLink to="/faq" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">FAQ</NavLink>
+                                <NavLink 
+                                    to="/home" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    Home
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
+                                <NavLink 
+                                    to="/about" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    About us
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
+                                <NavLink 
+                                    to="/tips" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    Courses
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
+                                <NavLink 
+                                    to="/faq" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    FAQ
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -207,10 +263,66 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
             {isMobileMenuOpen && ( // if the nav menu was opened in the mobile view
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
-                    <NavLink to="home" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">Home</NavLink>
-                    <NavLink to="about" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200" aria-current="page">About us</NavLink>
-                    <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">Courses</NavLink>
-                    <NavLink to="faq" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">FAQ</NavLink>
+                    <NavLink 
+                        to="home" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        Home
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
+                    <NavLink 
+                        to="about" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        About us
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
+                    <NavLink 
+                        to="tips" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        Courses
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
+                    <NavLink 
+                        to="faq" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        FAQ
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
                 </div>
             </div>)}
         </nav>
