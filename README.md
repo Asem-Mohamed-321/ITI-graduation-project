@@ -9,7 +9,7 @@ A fullstack graduation project consisting of:
 
 The project implements a user and company management system that allows:
 
-- **Users** to register, log in, and explore companies
+- **Users** to register, log in, and parse cv, get cv score
 - **Companies** to register, manage their profiles, and post job descriptions
 - **Admins** to manage user activities and moderate job postings
 
@@ -19,8 +19,9 @@ The project implements a user and company management system that allows:
 - User registration (Sign Up)
 - User authentication (Sign In)
 - Automatic role assignment (user by default)
-- Input validation for all fields
-- Data persistence in MongoDB
+- cv parsing & scoring  
+- update user profile
+- get feedback and areas of cv improvment
 
 ### Company Features
 - Company registration (Sign Up)
