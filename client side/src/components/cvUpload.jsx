@@ -30,22 +30,24 @@ export default function CVUpload({passCvResults ,cvScore}) {
   const  handleSecondStep = async () => {
     setStep(3); // Move to results step
     setIsLoading(true)
-    await axios.post('http://localhost:3000/score-cv/analyze', {
-      cvFile: resumeFile,
-      jobDescription: jobDescription
-    },{headers: {
-    'Content-Type': 'multipart/form-data',
-  }})
-      .then(response => {
-        passCvResults(response.data); // Pass the results to parent component
-        console.log("Scan results:", response.data);
-        setIsLoading(false)
-        // Handle the response data as needed
-      })
-      .catch(error => {
-        console.error("Error during scan:", error);
-        // Handle the error as needed
-      });   
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("cvFile", resumeFile);
+      formData.append("jobDescription", jobDescription);
+      const response = await axios.post('http://localhost:3000/score-cv/analyze-auth', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      passCvResults(response.data); // Pass the results to parent component
+      console.log("Scan results:", response.data);
+      setIsLoading(false)
+    } catch (error) {
+      console.error("Error during scan:", error);
+      setIsLoading(false);
+    }
   }
 
   console.log(resumeFile)

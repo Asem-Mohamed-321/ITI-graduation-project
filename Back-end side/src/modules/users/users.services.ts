@@ -21,7 +21,7 @@ export class UsersService {
   }
 
   async getProfile(user: IJwtPayload) {
-    return this.UserModel.findOne({ username: user.username }).select('-password');
+    return this.UserModel.findById(user.id).select('-password');
   }
 
   async findByField(field: string) {

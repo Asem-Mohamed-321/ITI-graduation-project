@@ -32,66 +32,8 @@ const ProfileEditForm = ({ values, onChange, onSave, onCancel, onPhotoChange }) 
               required
             />
           </label>
-          <label className="text-xs font-semibold">Date of Birth
-            <input
-              className="mt-1 w-full border rounded px-2 py-1"
-              type="date"
-              name="dob"
-              value={values.dob}
-              onChange={onChange}
-            />
-          </label>
-          <div className="text-xs font-semibold">Gender
-            <div className="flex gap-4 mt-1">
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Male"
-                  checked={values.gender === "Male"}
-                  onChange={onChange}
-                /> Male
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                  checked={values.gender === "Female"}
-                  onChange={onChange}
-                /> Female
-              </label>
-            </div>
-          </div>
         </div>
         <div className="flex-1 flex flex-col gap-4">
-          <label className="text-xs font-semibold">Contact Number
-            <input
-              className="mt-1 w-full border rounded px-2 py-1"
-              type="text"
-              name="phone"
-              value={values.phone}
-              onChange={onChange}
-            />
-          </label>
-          <label className="text-xs font-semibold">Title
-            <input
-              className="mt-1 w-full border rounded px-2 py-1"
-              type="text"
-              name="title"
-              value={values.title}
-              onChange={onChange}
-            />
-          </label>
-          <label className="text-xs font-semibold">About Me
-            <textarea
-              className="mt-1 w-full border rounded px-2 py-1"
-              name="about"
-              value={values.about}
-              onChange={onChange}
-              rows={4}
-            />
-          </label>
           <label className="text-xs font-semibold">Profile Photo
             <input
               className="mt-1 w-full border rounded px-2 py-1"

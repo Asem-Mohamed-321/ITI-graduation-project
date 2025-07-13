@@ -9,7 +9,6 @@ const ProfileHeader = ({ name, title, photoUrl, onPhotoChange }) => {
       <div className="flex-1">
         <p className="text-green-900 dark:text-green-200 text-lg font-serif mb-2">Profile</p>
         <h1 className="text-3xl md:text-4xl font-serif font-bold mb-1 text-gray-900 dark:text-white">{name}</h1>
-        <h2 className="text-lg md:text-xl text-gray-700 dark:text-gray-200 font-light border-b pb-2">{title}</h2>
       </div>
       <div className="flex flex-col items-center ml-0 md:ml-8 mt-4 md:mt-0">
         <div
