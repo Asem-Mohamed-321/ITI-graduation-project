@@ -35,7 +35,7 @@ export default function Resumes() {
   createdAt: new Date(resume.createdAt).toLocaleDateString(),
   updatedAt: new Date(resume.updatedAt).toLocaleDateString(),
   cvFile: resume.cvFileUrl
-    ? `http://localhost:3000/${resume.cvFileUrl.replace(/\\/g, "/")}`
+    ? `${resume.cvFileUrl.replace(/\\/g, "/")}`
     : null,
 }));
         setResumes(formatted);

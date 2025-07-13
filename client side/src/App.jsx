@@ -26,6 +26,7 @@ import NotFound from "./components/NotFound";
 import CVUploadWithNoDesc from "./assets/pages/UploadCvWithoutJopDescription";
 import AboutUs from "./components/AboutUs";
 import FAQ from "./components/FAQ";
+import CompanyJobDesc from "./components/companyJobDesc";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -55,6 +56,7 @@ function App() {
         {/* Nested routes */}
         <Route path="profile" element={<CompanyProfile />} />
         <Route path="add-job" element={<AddJob />} />
+        <Route path="job/:jobId" element={<CompanyJobDesc />} />
       </Route>
       <Route path="/admin" element={<AdminPage/>}>
         {/*nested admin routes */}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Select from 'react-select'
 export default function AddJob() {
 
+  
   const[jobTitle,setJobTitle] = useState("")
 
   const workFields = [
@@ -20,6 +21,11 @@ export default function AddJob() {
   
       const [selectedFields, setSelectedFields] = useState([]);
 
+      const [formData, setFormData] = useState({
+        jobTitle: "",
+        workFields: [],
+        description: "",
+      });
       function handleFieldSelect(selectedOptions) {
         setSelectedFields(selectedOptions);
         setFormData({...formData,workFields: selectedOptions.map(option => option.value)});

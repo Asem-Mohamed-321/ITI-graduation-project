@@ -108,7 +108,7 @@ function ATSBridge() {
             <p className="text-gray-700 dark:text-gray-300">{videos[index].description}</p>
           </div>
         </div>
-        <div className="w-full md:w-64 bg-white text-black ml-4 ">
+        <div className="w-full rounded-lg md:w-64 bg-white  text-black ml-4 ">
           <h2 className="text-xl font-semibold mb-3 pl-2">Video List</h2>
 
           <div className="mb-4 text-sm text-gray-500">

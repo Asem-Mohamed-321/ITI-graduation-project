@@ -1,23 +1,41 @@
 
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 
 export default function CompanyPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const jobs = [
-    "Full-Stack intern for a government portal",
-    "Senior DevOps (Docker + AWS)",
-    "Junior Backend Developer at XYZ Inc",
-  ];
+  const [jobs, setJobs] = useState([]);
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const token = localStorage.getItem("token"); // hard coded until you fix the login by company
+        const response = await axios.get("http://localhost:3000/jobs/company",{
+          headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        });
+        setJobs(response.data);
+      } catch (error) {
+        console.error("Failed to fetch jobs:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
 
   const truncateText = (text) =>
     text.length > 19 ? text.slice(0, 19) + "..." : text;
 
-  console.log(isSidebarOpen)
-  console.log(isOpen)
+  
   return (
     <div className="relative ">
       {/* Overlay when sidebar is open */}
@@ -95,24 +113,25 @@ export default function CompanyPage() {
             </div>
 
             {isOpen && isSidebarOpen && (
-              <div className="pl-10">
-                {jobs.map((job, index) => (
-                  <p
-                    key={index}
-                    className="mt-1 text-sm text-gray-700 cursor-pointer hover:bg-gray-200"
-                  >
-                    {truncateText(job)}
-                  </p>
-                ))}
-              </div>
-            )}
+            <div className="pl-10">
+              {jobs.map((job, index) => (
+                <Link
+                  to={`job/${job._id}`}
+                  key={index}
+                  className="mt-1 text-sm text-gray-700 block hover:bg-gray-200 px-2 py-1 rounded"
+                >
+                  {truncateText(job.title)}
+                </Link>
+              ))}
+            </div>
+          )}
           </div>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow min-h-screen flex items-center justify-center p-4 sm:p-8 md:p-12 z-0 w-full sm:ml-16">
-        <div className="w-full max-w-2xl">
+      <main className="flex-grow h-screen p-6 z-0 w-10/12 sm:w-11/12 sm:ml-16 mx-15">
+        <div className="">
           <Outlet />
         </div>
       </main>

@@ -139,19 +139,7 @@ export default function(){
 
             // companyFormData.append('Fields', Fields);
             const fields = selectedFields.map(field => field.value); // or .label depending on what you want
-            // companyFormData.append('Fields', JSON.stringify(fields));
-            companyFormData.append('description', "sample description")
-
-            // console.log("Company Form Data:", companyFormData);
-            console.log(formData.username, formData.email, formData.password, formData.picture, selectedFields);
-            // console.log(companyFormData.email, companyFormData.companyName, companyFormData.password, companyFormData.logoFile, companyFormData.Fields);
-            // console.log(companyName, email, password, logoFile, Fields);
-            //             const debugObject = {};
-            // companyFormData.forEach((value, key) => {
-            //     debugObject[key] = value;
-            // });
-            // console.log(debugObject);
-
+            
             try{
                 const response = await axios.post('http://localhost:3000/company/sign-up',companyFormData);
                 if(response.data){
