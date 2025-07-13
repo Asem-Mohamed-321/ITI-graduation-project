@@ -8,14 +8,12 @@ export default function CVUploadWithNoDesc() {
   const [cvResults, setCvResults] = useState(null);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-
   useEffect(()=>{
     if (!localStorage?.getItem('user') || !localStorage.getItem('username') )
     {
       navigate('/');
     }
   }, [])
-
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
