@@ -166,7 +166,6 @@ export default function CVUpload({passCvResults ,cvScore}) {
                         <tbody>
                         <tr>
                             <td className="align-middle text-center">
-                            <p className="font-bold">PLEASE WAIT...</p>
                             {isLoading && 
                             <>
                             <p>Loading ...</p>

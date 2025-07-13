@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink ,useNavigate} from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 export default function({setIsLoggedIn}){
 
     const [username, setUsername] = useState("");
@@ -8,6 +9,8 @@ export default function({setIsLoggedIn}){
     const [signUpType,setSignUpType] = useState("user")
     const [emptyUsername,setEmptyUsername] = useState(false)
     const [emptyPass,setEmptPass] = useState(false)
+
+    const navigate = useNavigate()
 
 
     async function login(e){
@@ -35,15 +38,25 @@ export default function({setIsLoggedIn}){
         ? { companyName: username, password }
         : { username, password };
 
+
     const response = await axios.post(endpoint, payload);
 
     if (response.data) {
       localStorage.setItem("token", response.data.token);
+      const decoded = jwtDecode(response.data.token);
+      localStorage.setItem("id",decoded.id)
       localStorage.setItem("username", username);
       localStorage.setItem("type", signUpType); // optional: store type
       setIsLoggedIn(true);
       console.log("Login successful!");
       alert("Login successful!");
+
+
+const targetPage =
+  !decoded.role ? '/company' :
+  decoded.role === 'user' ? '/user' :
+  '/admin';
+      navigate(targetPage)
     }
   } catch (error) {
     alert("There was an error logging in! check the console");
@@ -62,7 +75,7 @@ export default function({setIsLoggedIn}){
         <>
             <div className="flex w-11/12 m-auto mt-5 bg-white rounded-lg">
                 <div className="md:w-1/2 w-full pb-50 dark:bg-gray-700">
-                    <p className='relative top-0 left-0 pb-20 text-left ml-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs' onClick={changeType}>{"<<"} {signUpType === 'user'?'or sign up as a company':"or sign up as a user"} </p>
+                    <p className='relative top-0 left-0 pb-20 text-left ml-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs' onClick={changeType}>{"<<"} {signUpType === 'user'?'or sign in as a company':"or sign in as a user"} </p>
                     <p className="text-center font-extrabold mb-12 dark:text-white">{signUpType === 'user'?'SIGN IN TO THE CV CHECKER':'SIGN IN TO FIND TOP CANDIDATES'}</p>
                     <form className="flex flex-col space-y-4 mx-auto  w-fit  md:w-96 px-8 dark:bg-gray-700">
                         {/* mx-48 */}

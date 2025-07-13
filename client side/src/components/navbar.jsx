@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { NavLink } from "react-router-dom"; 
+import { NavLink , useNavigate } from "react-router-dom"; 
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
@@ -8,7 +8,9 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isDarkMode, setIsDarkMode] = useState(false); //dark mode switch
 
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
+    const userType = localStorage.getItem("type")
 
 
     useEffect(() => {
@@ -54,7 +56,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                         </NavLink>
                         <div className="hidden sm:ml-6 sm:block">
                         <div className="flex space-x-2">
-                            <a href="#" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</a>
+                            <NavLink to="/about" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</NavLink>
                             <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</NavLink>
                             </div>
                         </div>
@@ -82,8 +84,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                 id="user-menu-button"
                                 aria-expanded="false"
                                 aria-haspopup="true"
-                                                                    onClick={() => setIsProfileDropdownOpen(prev => !prev)}
-
+                                    onClick={() => setIsProfileDropdownOpen(prev => !prev)}
                                 >
                                 <span className="absolute -inset-1.5"></span>
                                 <span className="sr-only">Open user menu</span>
@@ -91,7 +92,6 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                     className="size-8 rounded-full"
                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                     alt="User profile"
-
                                 />
                                 </button>
 
@@ -103,7 +103,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     aria-orientation="vertical"
     aria-labelledby="user-menu-button"
   >
-    <a href="#" className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700" role="menuitem">Your Profile</a>
+    <NavLink to={userType === 'user' ? '/user/profile':'/company' } className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-slate-700" role="menuitem">Your Profile</NavLink>
     <button
       onClick={() => {
         localStorage.removeItem("token");
@@ -148,7 +148,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                 )}
                                 {(isLoggedIn && 
                                 <>
-                                <NavLink to='/login'  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Your profile</NavLink>
+                                <NavLink to={userType === 'user' ? '/user/profile':'/company' }  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Your profile</NavLink>
                                 <NavLink to='/login'  onClick={() => {
                                     localStorage.removeItem("token");
                                     setIsLoggedIn(false);
@@ -174,7 +174,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
             {isMobileMenuOpen && ( // if the nav menu was opened in the mobile view
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
-                    <a href="#" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white" aria-current="page">About us</a>
+                    <NavLink to="about" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white" aria-current="page">About us</NavLink>
                     <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white">Courses</NavLink>
                 </div>
             </div>)}

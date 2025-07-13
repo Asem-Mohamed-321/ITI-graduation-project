@@ -13,8 +13,7 @@ export default function CompanyPage() {
 
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchJobs = async () => {
+  const fetchJobs = async () => {
       try {
         const token = localStorage.getItem("token"); // hard coded until you fix the login by company
         const response = await axios.get("http://localhost:3000/jobs/company",{
@@ -27,6 +26,7 @@ export default function CompanyPage() {
         console.error("Failed to fetch jobs:", error);
       }
     };
+  useEffect(() => {
 
     fetchJobs();
   }, []);
@@ -132,7 +132,7 @@ export default function CompanyPage() {
       {/* Main Content */}
       <main className="flex-grow h-screen p-6 z-0 w-10/12 sm:w-11/12 sm:ml-16 mx-15">
         <div className="">
-          <Outlet />
+          <Outlet context={{ refreshJobs: fetchJobs }}/>
         </div>
       </main>
     </div>
