@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { NavLink } from "react-router-dom"; 
+import { NavLink, useNavigate } from "react-router-dom"; 
 
 export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
@@ -9,7 +9,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -23,7 +23,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
     return(
         <>
         <nav className="bg-cyan-500 dark:bg-slate-800">
-            <div className=" max-w-full px-6 sm:px-6 lg:px-6">
+            <div className="max-w-full px-6 sm:px-6 lg:px-6">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                         {/* <!-- Mobile menu button--> */}
@@ -48,15 +48,25 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
                     {/* desktop view buttons in the navbar */}
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <NavLink to={'/home'} className="flex shrink-0 items-center">
-                        <img className="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=white" alt="Your Company" />
-                            <p className="text-white font-bold ml-2 ">Tailwind CSS</p>
+                        <NavLink to={'/home'} className="flex items-center gap-3 group select-none leading-none">
+                            {/* Clean, modern, perfectly aligned bridge logo */}
+                            <svg className="h-8 w-8 md:h-10 md:w-10 text-white align-middle" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 24C4 13 8 8 16 8C24 8 28 13 28 24" stroke="white" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
+                                <path d="M4 24L28 24" stroke="white" strokeWidth="3.2" strokeLinecap="round"/>
+                                <rect x="6" y="24" width="2.2" height="5" rx="1.1" fill="white"/>
+                                <rect x="24" y="24" width="2.2" height="5" rx="1.1" fill="white"/>
+                                <rect x="15" y="24" width="2.2" height="5" rx="1.1" fill="white"/>
+                                <path d="M8 14C8 18 8 21 8 22.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                                <path d="M24 14C24 18 24 21 24 22.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                                <path d="M16 10C16 18 16 21 16 22.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                            <span className="text-white font-bold text-2xl md:text-3xl align-middle leading-none" style={{fontFamily: 'Inter, Arial, sans-serif', letterSpacing: '0.01em'}}>AtsBridge</span>
                         </NavLink>
                         <div className="hidden sm:ml-6 sm:block">
-                        <div className="flex space-x-2">
-                            <a href="#" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</a>
-                            <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</NavLink>
-                            </div>
+                        <div className="flex space-x-6">
+                            <a href="#" className="cursor-pointer rounded-md px-2 py-2 text-lg font-light text-cyan-100 dark:text-slate-300 hover:bg-cyan-600/30 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-100 transition-colors duration-150" aria-current="page">About us</a>
+                            <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-lg font-light text-cyan-100 dark:text-slate-300 hover:bg-cyan-600/30 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-100 transition-colors duration-150">Courses</NavLink>
+                        </div>
                         </div>
                     </div>
 
