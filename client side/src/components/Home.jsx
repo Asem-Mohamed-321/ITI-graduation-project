@@ -19,8 +19,6 @@ function Home() {
               Get instant feedback on your resume with 15 ATS-based checks. See your personalized score in under 1 minute and fix weaknesses before applying to any job.
             </p>
             <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer" onClick={()=>navigate('/upload-cv')}>Check Your Resume Score</YellowButton>
-            <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer" onClick={()=>navigate('/basic-scan')}>get basic analysis + assesment</YellowButton>
-
           </div>
           {/* Right: Image/Card */}
           <div className="flex-1 flex justify-center items-center w-full">
@@ -35,6 +33,24 @@ function Home() {
           </div>
         </div>
       </section>
+      {/* Basic Scan Section */}
+<section className="w-full bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-slate-800 dark:to-slate-900 py-16 md:py-24 animate__animated animate__fadeInUp">
+  <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+      Want a Basic CV Assessment?
+    </h2>
+    <p className="text-gray-700 dark:text-gray-300 mb-10 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+      Get a quick scan and assessment of your resume based on core ATS checks. Perfect for a first look before going deeper.
+    </p>
+    <YellowButton
+      className="py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer"
+      onClick={() => navigate('/basic-scan')}
+    >
+      Get Basic Analysis + Assessment
+    </YellowButton>
+  </div>
+</section>
+
 
       {/* Divider */}
       <div className="flex justify-center my-0">
