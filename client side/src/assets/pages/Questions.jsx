@@ -32,17 +32,7 @@ export default function Questions() {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-<<<<<<< HEAD
-
-  useEffect(()=>{
-    if (!localStorage?.getItem('user') || !localStorage.getItem('username') )
-    {
-      navigate('/');
-    }
-  }, [])
-=======
   const navigate = useNavigate();
->>>>>>> e5df0c40422266fbacd44fb7a805dc180bfa7aa4
 
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};
@@ -67,6 +57,12 @@ export default function Questions() {
       });
     }, 1000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage?.getItem('user') || !localStorage.getItem('username')) {
+      navigate('/');
+    }
   }, []);
 
   useEffect(() => {
