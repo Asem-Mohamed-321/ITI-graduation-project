@@ -10,7 +10,7 @@ export default function CompanyJobDesc() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55TmFtZSI6Im9iIiwiaWQiOiI2ODcyMzQ5MmEzMzRkYTMyNzU1MzJlODQiLCJpYXQiOjE3NTIzMzQxODcsImV4cCI6MTc1MjQyMDU4N30.vZIE11eJrsuMsfFtRjlwnMiAkSP4pmor8MpDLtBu4qU'
+        const token = localStorage.getItem("token");
 
         const res = await axios.get("http://localhost:3000/Jobs/company", {
           headers: {
@@ -30,24 +30,28 @@ export default function CompanyJobDesc() {
   }, [jobId]);
 
   const columns = [
-  { key: "username", label: "Username" },
-  { key: "email", label: "Email" },
-  { key: "geminiScore", label: "Score" },
-  { key: "cvFile", label: "Resume" }, 
-];
+    { key: "username", label: "Username" },
+    { key: "email", label: "Email" },
+    { key: "geminiScore", label: "Score" },
+    { key: "cvFile", label: "Resume" },
+  ];
   // Compute the data inside render logic
-  const data = job?.candidates?.map((candidate) => ({
-  username: candidate.username,
-  email: candidate.email,
-  geminiScore: candidate.geminiScore,
-  cvFile: candidate.cvFileUrl, 
-})) || [];
+  const data =
+    job?.candidates?.map((candidate) => ({
+      username: candidate.username,
+      email: candidate.email,
+      geminiScore: candidate.geminiScore,
+      cvFile: candidate.cvFileUrl,
+    })) || [];
 
   return (
     <div>
       {job ? (
         <>
-          <p className="font-bold mb-2">Top candidates for <span className="text-blue-700">{job.title}</span></p>
+          <p className="font-bold mb-2">
+            Top candidates for{" "}
+            <span className="text-blue-700">{job.title}</span>
+          </p>
           <DataTable columns={columns} data={data} />
         </>
       ) : (

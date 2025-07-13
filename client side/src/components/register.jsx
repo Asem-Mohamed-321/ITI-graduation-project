@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState, useRef } from "react";
 import Select from "react-select";
-import { NavLink } from "react-router-dom";
+import { NavLink , useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
   const fileInputRef = useRef(null);
@@ -67,6 +67,8 @@ export default function SignUpForm() {
     "Writing & Editing",
   ];
 
+  const navigate = useNavigate()
+
   const options = workFields.map((field) => ({ value: field, label: field }));
 
   function handleChange(e) {
@@ -121,9 +123,9 @@ export default function SignUpForm() {
     );
     form.append("password", formData.password);
     form.append(
-        signUpType === "user" ? "avatar" : "logoFile",
-        formData.picture
-      );
+      signUpType === "user" ? "avatar" : "logoFile",
+      formData.picture
+    );
     selectedFields.forEach((field) => form.append("Fields[]", field.value));
 
     try {
@@ -133,7 +135,8 @@ export default function SignUpForm() {
           : "http://localhost:3000/company/sign-up";
       const response = await axios.post(url, form);
       if (response.data) {
-        alert("Registration successful!");
+        // alert("Registration successful!");
+        navigate('/login')
       }
     } catch (error) {
       alert(error?.response?.data?.message || "Error during registration");
