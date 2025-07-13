@@ -17,14 +17,17 @@ function transformTests(testsArray) {
 
 
 export default function Questions() {
+  const navigate = useNavigate();
   const location = useLocation();
+  
   let tests = location.state?.tests || {};
-  useEffect(()=>{{
+  if (tests.length == 0)return null;
+  useEffect(()=>{
     if (!location.state?.tests)
     {
       navigate('/');
     }
-  }}, [])
+  }, [location, navigate])
   tests = tests.slice(0, 5);
   
   const questionsData = transformTests(tests);
@@ -32,8 +35,7 @@ export default function Questions() {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-  const navigate = useNavigate();
-
+  
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};
     Object.keys(questionsData).forEach((topic) => {
