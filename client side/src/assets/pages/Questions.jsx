@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function transformTests(testsArray) {
   const result = {};
@@ -18,17 +18,21 @@ function transformTests(testsArray) {
 
 export default function Questions() {
   const location = useLocation();
-  let { tests } = location.state || {};
+  let tests = location.state?.tests || {};
+  useEffect(()=>{{
+    if (!location.state?.tests)
+    {
+      navigate('/');
+    }
+  }}, [])
   tests = tests.slice(0, 5);
+  
   const questionsData = transformTests(tests);
 
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-
-  useEffect(() => {
-    console.log("Loaded tests:", tests);
-  }, []);
+  const navigate = useNavigate();
 
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};
