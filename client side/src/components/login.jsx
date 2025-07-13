@@ -70,7 +70,6 @@ const targetPage =
         setUsername("")
         setPassword("")
     }
-    console.log(signUpType)
     return (
         <>
             <div className="flex w-11/12 m-auto mt-5 bg-white rounded-lg">
