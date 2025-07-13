@@ -62,6 +62,12 @@ export default function Questions() {
   }, []);
 
   useEffect(() => {
+    if (!localStorage?.getItem('user') || !localStorage.getItem('username')) {
+      navigate('/');
+    }
+  }, []);
+
+  useEffect(() => {
     setCompletionStatus((prev) => {
       const newStatus = { ...prev };
       Object.keys(questionsData).forEach((topic) => {

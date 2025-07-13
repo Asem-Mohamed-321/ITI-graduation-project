@@ -23,6 +23,7 @@ export default function SignUpForm() {
   const [passwordNotConfirmed, setPasswordNotConfirmed] = useState(false);
   const [emptyWorkFields, setEmptyWorkFields] = useState(false);
   const [selectedFields, setSelectedFields] = useState([]);
+  const [toast, setToast] = useState({ show: false, type: "", message: "" });
 
   const workFields = [
     "Accounting",
@@ -68,8 +69,7 @@ export default function SignUpForm() {
   ];
 
   const navigate = useNavigate();
-  const [isLoading,setIsLoading] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false);
   const options = workFields.map((field) => ({ value: field, label: field }));
 
   function handleChange(e) {
@@ -110,7 +110,6 @@ export default function SignUpForm() {
 
   async function handleSubmit(e, signUpType) {
     e.preventDefault();
-
     if (selectedFields.length === 0) {
       setEmptyWorkFields(true);
       return;
@@ -130,20 +129,31 @@ export default function SignUpForm() {
     selectedFields.forEach((field) => form.append("Fields[]", field.value));
 
     try {
-        setIsLoading(true)
+      setIsLoading(true);
       const url =
         signUpType === "user"
           ? "http://localhost:3000/auth/sign-up"
           : "http://localhost:3000/company/sign-up";
       const response = await axios.post(url, form);
+
       if (response.data) {
-        // alert("Registration successful!");
-        setIsLoading(false)
-        navigate("/login");
+        setToast({
+          show: true,
+          type: "success",
+          message: "Registration successful! Redirecting to login...",
+        });
+        setTimeout(() => navigate("/login"), 1500);
       }
     } catch (error) {
-        setIsLoading(false)
-      alert(error?.response?.data?.message || "Error during registration");
+      const errorMessage =
+        error?.response?.data?.message || "Error during registration";
+      setToast({
+        show: true,
+        type: "error",
+        message: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -166,9 +176,41 @@ export default function SignUpForm() {
     setPasswordNotConfirmed(false);
     setEmptyWorkFields(false);
   }
-
   return (
     <>
+      {toast.show && (
+        <div
+          className="fixed top-5 end-5 z-50 max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-neutral-800 dark:border-neutral-700"
+          role="alert"
+          tabIndex="-1"
+        >
+          <div className="flex p-4">
+            <div className="shrink-0">
+              <svg
+                className={`shrink-0 size-4 mt-0.5 ${
+                  toast.type === "error" ? "text-red-500" : "text-green-500"
+                }`}
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                {toast.type === "error" ? (
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                ) : (
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.293 8.707a1 1 0 0 0 1.414 0L10.707 6.707a1 1 0 0 0-1.414-1.414L8 7.586 7.121 6.707a1 1 0 0 0-1.414 1.414l1.586 1.586z" />
+                )}
+              </svg>
+            </div>
+            <div className="ms-3">
+              <p className="text-sm text-gray-700 dark:text-neutral-400">
+                {toast.message}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex w-11/12 min-h-[600px] max-h-[90vh] m-auto mt-5 bg-white overflow-hidden rounded-lg">
         <div className="hidden md:flex md:w-1/2 py-4 px-5 items-center justify-center bg-gray-200 dark:bg-slate-800">
           <div className="aspect-[4/3] w-full ">
