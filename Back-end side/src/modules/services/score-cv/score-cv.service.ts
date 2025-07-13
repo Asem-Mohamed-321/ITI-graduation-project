@@ -181,7 +181,7 @@ export class ScoreCvService {
 }
 
   async getScoresByUserId(userId: string) {
-    return this.cvScoreModel.find({ userId }).sort({ createdAt: -1 });
+    return this.cvScoreModel.find({ userId: new Types.ObjectId(userId) }).sort({ createdAt: -1 });
   }
 
   async getAllScores() {
