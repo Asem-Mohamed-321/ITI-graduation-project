@@ -19,6 +19,8 @@ function Home() {
               Get instant feedback on your resume with 15 ATS-based checks. See your personalized score in under 1 minute and fix weaknesses before applying to any job.
             </p>
             <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer" onClick={()=>navigate('/upload-cv')}>Check Your Resume Score</YellowButton>
+            <YellowButton className="mb-2 w-full sm:w-auto py-4 px-8 text-lg md:text-xl animate__animated animate__pulse animate__infinite cursor-pointer" onClick={()=>navigate('/basic-scan')}>get basic analysis + assesment</YellowButton>
+
           </div>
           {/* Right: Image/Card */}
           <div className="flex-1 flex justify-center items-center w-full">
@@ -319,6 +321,7 @@ function Home() {
               Explore All Questions
             </YellowButton>
           </div>
+          
         </div>
       </section>
     </>

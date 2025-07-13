@@ -169,30 +169,6 @@ export default function CVUploadWithNoDesc() {
                       Start Test
                     </button>
                   )}
-                  {cvResults.tests?.map((testObj, i) => (
-                    <div key={i} className="mb-2 p-2 border rounded">
-                      {Object.entries(testObj).map(([topic, questions]) => (
-                        <div key={topic}>
-                          <h4 className="font-semibold">{topic}</h4>
-                          {questions.map((q, j) => (
-                            <div key={j} className="mb-2">
-                              <p>
-                                <strong>Q:</strong> {q.content}
-                              </p>
-                              <ul className="list-disc list-inside">
-                                {q.choices.map((choice, k) => (
-                                  <li key={k}>{choice}</li>
-                                ))}
-                              </ul>
-                              <p>
-                                <strong>Answer:</strong> {q["correct answer"]}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
                 </div>
               </>
             )}

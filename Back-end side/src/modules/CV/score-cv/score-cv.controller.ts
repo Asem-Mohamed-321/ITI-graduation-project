@@ -164,7 +164,7 @@ export class ScoreCvController {
       $set: { candidates: candidates },
     });
   
-    return candidates;
+    return {candidates:candidates, JobID:job._id};
   }
   
 
