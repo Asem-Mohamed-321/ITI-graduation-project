@@ -24,6 +24,8 @@ export default function SignUpForm() {
   const [emptyWorkFields, setEmptyWorkFields] = useState(false);
   const [selectedFields, setSelectedFields] = useState([]);
   const [toast, setToast] = useState({ show: false, type: "", message: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const workFields = [
     "Accounting",
@@ -225,12 +227,14 @@ export default function SignUpForm() {
         {/* User Sign Up Form */}
         {step === 1 && signUpType === "user" && (
           <div className="md:w-1/2 w-full  pb-35 dark:bg-gray-700">
-            <p
-              className="relative top-0 right-0 pb-20 text-right mr-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs"
-              onClick={changeType}
-            >
-              or sign up as a company {">>"}
-            </p>
+            <div className="text-center mb-6">
+              <button
+                onClick={changeType}
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-semibold transition-colors duration-200 hover:scale-105 transform"
+              >
+                🔗 or sign up as a company
+              </button>
+            </div>
             <p className="text-center font-extrabold mb-12 dark:text-white">
               SIGN UP FOR THE CV CHECKER
             </p>
@@ -275,20 +279,36 @@ export default function SignUpForm() {
                 )}
               </div>
               <div>
-                {/* <label className="text-sm font-bold dark:text-white" htmlFor="password">Password</label> */}
-                {/* <input id="password" type="password" placeholder="Password" className="w-full border-2 border-gray-300 rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500" /> */}
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  value={formData.password}
-                  className={` block w-full  ${
-                    emptyPassword
-                      ? "border-1 border-red-500"
-                      : "border-2 border-gray-300"
-                  } rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-red-500-700 dark:bg-slate-800 dark:text-white`}
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    onChange={handleChange}
+                    value={formData.password}
+                    className={`block w-full ${
+                      emptyPassword
+                        ? "border-1 border-red-500"
+                        : "border-2 border-gray-300"
+                    } rounded-md p-2 mt-2 pr-10 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center mt-2"
+                  >
+                    {showPassword ? (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 {emptyPassword && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
                     Please choose a password
@@ -296,18 +316,36 @@ export default function SignUpForm() {
                 )}
               </div>
               <div>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
-                  className={`w-full block ${
-                    passwordNotConfirmed
-                      ? "border-1 border-red-500"
-                      : "border-2 border-gray-300"
-                  } rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
-                />
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                    className={`w-full block ${
+                      passwordNotConfirmed
+                        ? "border-1 border-red-500"
+                        : "border-2 border-gray-300"
+                    } rounded-md p-2 mt-2 pr-10 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center mt-2"
+                  >
+                    {showConfirmPassword ? (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 {passwordNotConfirmed && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
                     passwords don't match
@@ -332,7 +370,7 @@ export default function SignUpForm() {
                   className="hidden"
                   ref={fileInputRef}
                   onChange={handleChange}
-                ></input>{" "}
+                ></input>
                 {emptyProfilePic && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
                     Please choose a profile picture
@@ -367,12 +405,14 @@ export default function SignUpForm() {
         {/* Company Sign Up Form */}
         {step === 1 && signUpType === "company" && (
           <div className="md:w-1/2 w-full  pb-35 dark:bg-gray-700">
-            <p
-              className="relative top-0 right-0 pb-20 text-right mr-2 cursor-pointer text-blue-500 dark:text-blue-300 text-xs"
-              onClick={changeType}
-            >
-              or sign up as an employee {">>"}
-            </p>
+            <div className="text-center mb-6">
+              <button
+                onClick={changeType}
+                className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-semibold transition-colors duration-200 hover:scale-105 transform"
+              >
+                🔗 or sign up as a user
+              </button>
+            </div>
             <p className="text-center font-extrabold mb-12 dark:text-white">
               SIGN UP TO FIND BEST CANDIDATES
             </p>
@@ -417,20 +457,36 @@ export default function SignUpForm() {
                 )}
               </div>
               <div>
-                {/* <label className="text-sm font-bold dark:text-white" htmlFor="password">Password</label> */}
-                {/* <input id="password" type="password" placeholder="Password" className="w-full border-2 border-gray-300 rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500" /> */}
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  value={formData.password}
-                  className={` block w-full  ${
-                    emptyPassword
-                      ? "border-1 border-red-500"
-                      : "border-2 border-gray-300"
-                  } rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-red-500-700 dark:bg-slate-800 dark:text-white`}
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    onChange={handleChange}
+                    value={formData.password}
+                    className={`block w-full ${
+                      emptyPassword
+                        ? "border-1 border-red-500"
+                        : "border-2 border-gray-300"
+                    } rounded-md p-2 mt-2 pr-10 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center mt-2"
+                  >
+                    {showPassword ? (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 {emptyPassword && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
                     Please choose a password
@@ -438,18 +494,36 @@ export default function SignUpForm() {
                 )}
               </div>
               <div>
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
-                  className={`w-full block ${
-                    passwordNotConfirmed
-                      ? "border-1 border-red-500"
-                      : "border-2 border-gray-300"
-                  } rounded-md p-2 mt-2 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
-                />
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Confirm password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                    className={`w-full block ${
+                      passwordNotConfirmed
+                        ? "border-1 border-red-500"
+                        : "border-2 border-gray-300"
+                    } rounded-md p-2 mt-2 pr-10 focus:outline-none focus:border-blue-500 dark:placeholder:text-gray-500 dark:border-gray-700 dark:bg-slate-800 dark:text-white`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center mt-2"
+                  >
+                    {showConfirmPassword ? (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 {passwordNotConfirmed && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
                     passwords don't match
@@ -459,7 +533,7 @@ export default function SignUpForm() {
               <div>
                 <input
                   type="text"
-                  placeholder="Choose profile pic"
+                  placeholder="Choose company logo"
                   value={formData.picture?.name || ""}
                   onClick={() => fileInputRef.current.click()}
                   className={`w-full block cursor-pointer ${
@@ -477,7 +551,7 @@ export default function SignUpForm() {
                 ></input>
                 {emptyProfilePic && (
                   <p className="text-red-600 text-sm sm:text-base font-light italic">
-                    Please choose a profile picture
+                    Please choose a company logo
                   </p>
                 )}
               </div>
@@ -555,14 +629,7 @@ export default function SignUpForm() {
                 >
                   Back
                 </button>
-                <button
-                  type="submit"
-                  onClick={(e) => handleSubmit(e, signUpType)}
-                  className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"
-                >
-                  Submit
-                </button>
-                {!isLoading && (
+                {!isLoading ? (
                   <button
                     type="submit"
                     onClick={(e) => handleSubmit(e, signUpType)}
@@ -570,18 +637,17 @@ export default function SignUpForm() {
                   >
                     Submit
                   </button>
-                )}
-                {isLoading && (
+                ) : (
                   <button
                     disabled
                     className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"
                   >
                     <div
-                      class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full"
+                      className="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full"
                       role="status"
                       aria-label="loading"
                     >
-                      <span class="sr-only">Loading...</span>
+                      <span className="sr-only">Loading...</span>
                     </div>
                   </button>
                 )}

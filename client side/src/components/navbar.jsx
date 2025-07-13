@@ -67,7 +67,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                     </div>
 
                     {/* desktop view buttons in the navbar */}
-                    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div className="flex flex-1 items-center justify-between">
                         <NavLink to={'/home'} className="flex items-center gap-3 group select-none leading-none">
                             {/* Clean, modern, perfectly aligned bridge logo */}
                             <svg className="h-8 w-8 md:h-10 md:w-10 text-white align-middle" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,10 +82,14 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                             </svg>
                             <span className="text-white font-bold text-2xl md:text-3xl align-middle leading-none" style={{fontFamily: 'Inter, Arial, sans-serif', letterSpacing: '0.01em'}}>AtsBridge</span>
                         </NavLink>
-                        <div className="hidden sm:ml-6 sm:block">
-                        <div className="flex space-x-2">
-                            <NavLink to="/about" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</NavLink>
-                            <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</NavLink>
+                        
+                        {/* Centered navigation links */}
+                        <div className="hidden sm:flex items-center justify-center flex-1">
+                            <div className="flex space-x-6">
+                                <NavLink to="/home" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">Home</NavLink>
+                                <NavLink to="/about" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105" aria-current="page">About us</NavLink>
+                                <NavLink to="/tips" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">Courses</NavLink>
+                                <NavLink to="/faq" className="cursor-pointer rounded-md px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white transition-all duration-200 hover:scale-105">FAQ</NavLink>
                             </div>
                         </div>
                     </div>
@@ -203,8 +207,10 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
             {isMobileMenuOpen && ( // if the nav menu was opened in the mobile view
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
-                    <NavLink to="about" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white" aria-current="page">About us</NavLink>
-                    <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white">Courses</NavLink>
+                    <NavLink to="home" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">Home</NavLink>
+                    <NavLink to="about" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200" aria-current="page">About us</NavLink>
+                    <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">Courses</NavLink>
+                    <NavLink to="faq" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white transition-colors duration-200">FAQ</NavLink>
                 </div>
             </div>)}
         </nav>

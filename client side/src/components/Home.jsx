@@ -1,9 +1,39 @@
 import YellowButton from "./YellowButton"
 import "animate.css"
 import { useNavigate } from "react-router-dom"; 
+import { jwtDecode } from "jwt-decode";
 
 function Home() {
   const navigate = useNavigate(); //to navigate to other pages onClick for example
+  
+  // Get user profile picture
+  const getProfilePicture = () => {
+    try {
+      if (localStorage.token) {
+        const decoded = jwtDecode(localStorage.token);
+        
+        // If no role => company
+        if (!decoded.role) {
+          return decoded.logoFile || "/images/companyLogo.png";
+        }
+        
+        // If user
+        if (decoded.role === 'user') {
+          return decoded.avatar || "/images/profile_unset.svg";
+        }
+        
+        // Else: assume admin
+        return decoded.avatar || "/images/profile_unset.svg";
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const isLoggedIn = !!localStorage.token;
+  const profilePicture = getProfilePicture();
+  const userType = isLoggedIn ? (jwtDecode(localStorage.token).role || "company") : null;
 
   return (
     <>
@@ -96,7 +126,12 @@ function Home() {
             </div>
           </div>
           <div className="flex justify-center mt-10 md:mt-14 animate__animated animate__fadeIn animate__delay-2s">
-            <YellowButton className="w-full max-w-xs py-4 px-8 text-lg md:text-xl whitespace-nowrap animate__animated animate__pulse animate__infinite">Scan Your Resume for Free</YellowButton>
+            <YellowButton 
+              className="w-full max-w-xs py-4 px-8 text-lg md:text-xl whitespace-nowrap animate__animated animate__pulse animate__infinite cursor-pointer"
+              onClick={() => navigate('/upload-cv')}
+            >
+              Scan Your Resume for Free
+            </YellowButton>
           </div>
         </div>
       </section>
