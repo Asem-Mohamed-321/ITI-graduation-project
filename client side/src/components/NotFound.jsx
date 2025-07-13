@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const NotFound = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 transition-colors duration-500 px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 transition-colors duration-500 px-4 mt-2">
       <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 md:p-16 flex flex-col items-center gap-6 border border-gray-100 dark:border-slate-800 max-w-lg w-full">
         <div className="flex flex-col items-center gap-2">
           <span className="text-7xl md:text-8xl font-extrabold text-blue-500 dark:text-blue-400">404</span>

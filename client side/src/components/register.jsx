@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState, useRef } from "react";
 import Select from "react-select";
-import { NavLink , useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
   const fileInputRef = useRef(null);
@@ -67,7 +67,8 @@ export default function SignUpForm() {
     "Writing & Editing",
   ];
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [isLoading,setIsLoading] = useState(false)
 
   const options = workFields.map((field) => ({ value: field, label: field }));
 
@@ -129,6 +130,7 @@ export default function SignUpForm() {
     selectedFields.forEach((field) => form.append("Fields[]", field.value));
 
     try {
+        setIsLoading(true)
       const url =
         signUpType === "user"
           ? "http://localhost:3000/auth/sign-up"
@@ -136,9 +138,11 @@ export default function SignUpForm() {
       const response = await axios.post(url, form);
       if (response.data) {
         // alert("Registration successful!");
-        navigate('/login')
+        setIsLoading(false)
+        navigate("/login");
       }
     } catch (error) {
+        setIsLoading(false)
       alert(error?.response?.data?.message || "Error during registration");
     }
   }
@@ -516,6 +520,29 @@ export default function SignUpForm() {
                 >
                   Submit
                 </button>
+                {!isLoading && (
+                  <button
+                    type="submit"
+                    onClick={(e) => handleSubmit(e, signUpType)}
+                    className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"
+                  >
+                    Submit
+                  </button>
+                )}
+                {isLoading && (
+                  <button
+                    disabled
+                    className="float-end w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 mt-8 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"
+                  >
+                    <div
+                      class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full"
+                      role="status"
+                      aria-label="loading"
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                )}
               </div>
               <div className="mx-auto  mt-2 text-xs ">
                 <p className="inline font-normal dark:text-slate-400">

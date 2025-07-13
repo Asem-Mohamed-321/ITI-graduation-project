@@ -171,7 +171,12 @@ export default function CVUpload({passCvResults ,cvScore}) {
                             {isLoading && 
                             <>
                             <p>Loading ...</p>
-                            <p className="font-bold">PLEASE WAIT...</p></>}
+                            <p className="font-bold">PLEASE WAIT...</p>
+                            <div class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>
+    </>
+    }
                             {!isLoading && <NavLink to={'/score'}>click here to see your score </NavLink>}
                             </td>
                         </tr>

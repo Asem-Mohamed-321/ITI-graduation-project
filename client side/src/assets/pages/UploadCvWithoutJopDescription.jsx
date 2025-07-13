@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useRef ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CVUploadWithNoDesc() {
@@ -8,6 +8,13 @@ export default function CVUploadWithNoDesc() {
   const [cvResults, setCvResults] = useState(null);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+
+  useEffect(()=>{
+    if (!localStorage?.getItem('user') || !localStorage.getItem('username') )
+    {
+      navigate('/');
+    }
+  }, [])
 
   const handleButtonClick = () => {
     fileInputRef.current.click();

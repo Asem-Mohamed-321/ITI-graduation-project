@@ -26,9 +26,12 @@ export default function Questions() {
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
 
-  useEffect(() => {
-    console.log("Loaded tests:", tests);
-  }, []);
+  useEffect(()=>{
+    if (!localStorage?.getItem('user') || !localStorage.getItem('username') )
+    {
+      navigate('/');
+    }
+  }, [])
 
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};

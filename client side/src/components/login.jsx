@@ -9,6 +9,7 @@ export default function({setIsLoggedIn}){
     const [signUpType,setSignUpType] = useState("user")
     const [emptyUsername,setEmptyUsername] = useState(false)
     const [emptyPass,setEmptPass] = useState(false)
+    const [isLoading,setIsLoading] = useState(false)
 
     const navigate = useNavigate()
 
@@ -28,6 +29,7 @@ export default function({setIsLoggedIn}){
   console.log(username, password, signUpType);
 
   try {
+    setIsLoading(true)
     const endpoint =
       signUpType === "company"
         ? "http://localhost:3000/company/sign-in"
@@ -48,8 +50,8 @@ export default function({setIsLoggedIn}){
       localStorage.setItem("username", username);
       localStorage.setItem("type", signUpType); // optional: store type
       setIsLoggedIn(true);
-      console.log("Login successful!");
-      alert("Login successful!");
+      setIsLoading(false)
+      
 
 
 const targetPage =
@@ -70,6 +72,7 @@ const targetPage =
         setUsername("")
         setPassword("")
     }
+    console.log(isLoading)
     return (
         <>
             <div className="flex w-11/12 m-auto mt-5 bg-white rounded-lg">
@@ -91,7 +94,11 @@ const targetPage =
                             {emptyPass && <p className="text-red-600 text-sm sm:text-base font-light italic">Please choose a password</p>}
                         </div>
                         <div>
-                            <button onClick={login} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign In</button>
+                            {!isLoading && <button onClick={login} className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700">Sign In</button>}
+                            {isLoading && <button disabled className="w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"><div class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div></button>}
+                            
                         </div>
                         <div className="mx-auto  mt-2 text-xs ">
                         <p className="inline font-normal dark:text-slate-400">you don’t have an account ? <NavLink to="/register" className="inline text-blue-500 dark:text-blue-300">Create a new account </NavLink></p>
@@ -109,7 +116,6 @@ const targetPage =
                         />
                     </div>
                 </div>
-
             </div>
         </>
     )

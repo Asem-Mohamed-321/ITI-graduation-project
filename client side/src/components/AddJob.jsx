@@ -18,6 +18,7 @@ export default function AddJob() {
   ];
 
   const options = workFields.map(field => ({ value: field, label: field }));
+  const [isLoading,setIsLoading] = useState(false)
 
   const [selectedFields, setSelectedFields] = useState([]);
   const [formData, setFormData] = useState({
@@ -42,17 +43,20 @@ export default function AddJob() {
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem("token");
+      setIsLoading(true)
       const response = await axios.post("http://localhost:3000/score-cv/get-candidate", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       await refreshJobs();
-      alert("Job added successfully!");
+      setIsLoading(false)
+      // alert("Job added successfully!");
       
       navigate('/company')
       console.log(response.data);
     } catch (err) {
+      setIsLoading(false)
       console.error(err.response?.data?.message || err.message);
       alert(err.response?.data?.message || "Something went wrong");
     }
@@ -100,7 +104,10 @@ export default function AddJob() {
         onClick={handleSubmit}
         className="m-auto w-fit cursor-pointer bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:bg-blue-900 dark:hover:bg-blue-700"
       >
-        Start scanning
+        {!isLoading && "Start scanning"}
+        {isLoading && <div class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>}
       </button>
     </div>
   );
