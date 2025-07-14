@@ -50,6 +50,14 @@ export default function CVUploadWithNoDesc() {
       console.log("Analysis results:", response.data);
       setCvResults(response.data);
       setStep(3);
+      // Automatically redirect to /questions after analysis
+      if (response.data && response.data.tests && response.data.tests.length > 0) {
+        localStorage.setItem('tests', JSON.stringify(response.data.tests));
+        navigate("/questions", { state: { tests: response.data.tests } });
+      } else {
+        localStorage.removeItem('tests');
+        navigate("/questions");
+      }
     } catch (error) {
       console.error("Error during analysis:", error);
       alert("Failed to analyze the resume.");

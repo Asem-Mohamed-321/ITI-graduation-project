@@ -31,9 +31,21 @@ import { jwtDecode } from "jwt-decode";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [avatar, setAvatar] = useState(() => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        return decoded.avatar || null;
+      }
+    } catch {
+      return null;
+    }
+    return null;
+  });
 
   const location = useLocation();
-  const showFooter = location.pathname === "/home";
+  const showFooter = location.pathname === "/" || location.pathname === "/home";
 
   const [cvScore, setCvScore] = useState({});
 

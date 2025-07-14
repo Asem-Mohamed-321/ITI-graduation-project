@@ -20,3 +20,19 @@
 .scrollable::-webkit-scrollbar-track {
   background-color: #aaa8a8; /* Tailwind yellow-100 */
 }
+
+/* Text truncation utility */
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s cubic-bezier(.39,.575,.565,1.000) both;
+}

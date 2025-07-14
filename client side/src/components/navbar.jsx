@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { NavLink , useNavigate } from "react-router-dom"; 
 import { jwtDecode } from "jwt-decode";
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn }){
+export default function Navbar({ isLoggedIn, setIsLoggedIn, avatar }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // settings dropdown in mobile view
 
@@ -23,11 +23,11 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
   // If user
   if (decoded.role === 'user') {
-    return decoded.avatar || "/images/profile_unset.svg";
+    return avatar || decoded.avatar || "/images/profile_unset.svg";
   }
 
   // Else: assume admin
-  return decoded.avatar || "/images/profile_unset.svg";
+  return avatar || decoded.avatar || "/images/profile_unset.svg";
 };
 
     useEffect(() => {
@@ -67,8 +67,8 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                     </div>
 
                     {/* desktop view buttons in the navbar */}
-                    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <NavLink to={'/home'} className="flex items-center gap-3 group select-none leading-none">
+                    <div className="flex flex-1 items-center justify-between">
+                        <NavLink to={isLoggedIn && userType === 'admin' ? '/admin/dashboard' : isLoggedIn && userType === 'company' ? '/company' : '/home'} className="flex items-center gap-3 group select-none leading-none">
                             {/* Clean, modern, perfectly aligned bridge logo */}
                             <svg className="h-8 w-8 md:h-10 md:w-10 text-white align-middle" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4 24C4 13 8 8 16 8C24 8 28 13 28 24" stroke="white" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
@@ -82,10 +82,91 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                             </svg>
                             <span className="text-white font-bold text-2xl md:text-3xl align-middle leading-none" style={{fontFamily: 'Inter, Arial, sans-serif', letterSpacing: '0.01em'}}>AtsBridge</span>
                         </NavLink>
-                        <div className="hidden sm:ml-6 sm:block">
-                        <div className="flex space-x-2">
-                            <NavLink to="/about" className="cursor-pointer rounded-md px-2  py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300" aria-current="page">About us</NavLink>
-                            <NavLink to="/tips" className="cursor-pointer rounded-md px-2 py-2 text-sm font-thin text-cyan-200 dark:text-slate-500 hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white dark:hover:text-slate-300">Courses</NavLink>
+                        
+                        {/* Centered navigation links */}
+                        <div className="hidden sm:flex items-center justify-center flex-1">
+                            <div className="flex space-x-6">
+                                {/* Show Home link only for users */}
+                                {isLoggedIn && userType === 'user' && (
+                                    <NavLink 
+                                        to="/home"
+                                        className={({ isActive }) => 
+                                            `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                                isActive 
+                                                    ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                    : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                            }`
+                                        }
+                                    >
+                                        Home
+                                        {({ isActive }) => isActive && (
+                                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                        )}
+                                    </NavLink>
+                                )}
+                                {/* Show Dashboard link only for admin users */}
+                                {isLoggedIn && userType === 'admin' && (
+                                    <NavLink 
+                                        to="/admin/dashboard" 
+                                        className={({ isActive }) => 
+                                            `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                                isActive 
+                                                    ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                    : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                            }`
+                                        }
+                                    >
+                                        Dashboard
+                                        {({ isActive }) => isActive && (
+                                            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                        )}
+                                    </NavLink>
+                                )}
+                                <NavLink 
+                                    to="/about" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    About us
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
+                                <NavLink 
+                                    to="/tips" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    Courses
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
+                                <NavLink 
+                                    to="/faq" 
+                                    className={({ isActive }) => 
+                                        `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
+                                            isActive 
+                                                ? 'text-white bg-cyan-600/50 shadow-lg' 
+                                                : 'text-white hover:bg-cyan-600/50 dark:hover:bg-slate-700 hover:text-white'
+                                        }`
+                                    }
+                                >
+                                    FAQ
+                                    {({ isActive }) => isActive && (
+                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                                    )}
+                                </NavLink>
                             </div>
                         </div>
                     </div>
@@ -103,8 +184,8 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                                             
                                 </>
                             )}
-                            {/* Profile image if logged in */}
-                            {isLoggedIn && (
+                            {/* Profile image if logged in - hide for admin users */}
+                            {isLoggedIn && userType !== 'admin' && (
                             <div className="relative ml-4">
                                 <button
                                 type="button"
@@ -150,6 +231,20 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
                             </div>
                             )}
+                            
+                            {/* Sign out button for admin users */}
+                            {isLoggedIn && userType === 'admin' && (
+                                <button
+                                    onClick={() => {
+                                        localStorage.removeItem("token");
+                                        setIsLoggedIn(false);
+                                        navigate("/login");
+                                    }}
+                                    className="ml-4 bg-transparent text-white font-medium hover:bg-cyan-600 hover:border-cyan-500 dark:hover:bg-slate-600 dark:hover:border-slate-800 py-2 px-4 border border-white rounded"
+                                >
+                                    Sign out
+                                </button>
+                            )}
 
                         </div>
                         {/* <!-- Profile dropdown --> */}
@@ -175,9 +270,19 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                 <NavLink to='/login' className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Login</NavLink>
                                 </>
                                 )}
-                                {(isLoggedIn && 
+                                {(isLoggedIn && userType !== 'admin' && 
                                 <>
                                 <NavLink to={userType === 'user' ? '/user/profile':'/company' }  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600  " role="menuitem" tabIndex="-1" id="user-menu-item-0">Your profile</NavLink>
+                                <NavLink to='/login'  onClick={() => {
+                                    localStorage.removeItem("token");
+                                    setIsLoggedIn(false);
+                                    setIsProfileDropdownOpen(false);
+                                    navigate("/login");
+                                }}  className="block px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-slate-600" role="menuitem" tabIndex="-1" id="user-menu-item-1">Sign out</NavLink>
+                                </>
+                                )}
+                                {(isLoggedIn && userType === 'admin' && 
+                                <>
                                 <NavLink to='/login'  onClick={() => {
                                     localStorage.removeItem("token");
                                     setIsLoggedIn(false);
@@ -203,8 +308,87 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
             {isMobileMenuOpen && ( // if the nav menu was opened in the mobile view
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
-                    <NavLink to="about" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white" aria-current="page">About us</NavLink>
-                    <NavLink to="tips" className="block rounded-md px-3 py-2 text-base font-medium text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white">Courses</NavLink>
+                    {/* Show Home link only for company users and non-logged in users in mobile */}
+                    {(isLoggedIn && userType === 'company') || !isLoggedIn ? (
+                        <NavLink 
+                            to={isLoggedIn && userType === 'company' ? '/company' : '/home'} 
+                            className={({ isActive }) => 
+                                `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                    isActive 
+                                        ? 'text-white bg-cyan-600 shadow-lg' 
+                                        : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                                }`
+                            }
+                        >
+                            Home
+                            {({ isActive }) => isActive && (
+                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            )}
+                        </NavLink>
+                    ) : null}
+                    {/* Show Dashboard link only for admin users in mobile */}
+                    {isLoggedIn && userType === 'admin' && (
+                        <NavLink 
+                            to="/admin/dashboard" 
+                            className={({ isActive }) => 
+                                `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                    isActive 
+                                        ? 'text-white bg-cyan-600 shadow-lg' 
+                                        : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                                }`
+                            }
+                        >
+                            Dashboard
+                            {({ isActive }) => isActive && (
+                                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            )}
+                        </NavLink>
+                    )}
+                    <NavLink 
+                        to="about" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        About us
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
+                    <NavLink 
+                        to="tips" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        Courses
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
+                    <NavLink 
+                        to="faq" 
+                        className={({ isActive }) => 
+                            `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
+                                isActive 
+                                    ? 'text-white bg-cyan-600 shadow-lg' 
+                                    : 'text-white dark:hover:bg-gray-700 hover:bg-cyan-600 hover:text-white'
+                            }`
+                        }
+                    >
+                        FAQ
+                        {({ isActive }) => isActive && (
+                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        )}
+                    </NavLink>
                 </div>
             </div>)}
         </nav>
