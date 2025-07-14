@@ -194,10 +194,10 @@ const Profile = () => {
       setProfile({ ...editValues });
       setEditMode(false);
       setError("");
-      setToast({ type: 'success', message: 'تم تحديث البروفايل بنجاح ✅' });
+      setToast({ type: 'success', message: 'Profile updated successfully ✅' });
     } catch (err) {
       setError("Failed to update profile: " + (err.response?.data?.message || err.message));
-      setToast({ type: 'error', message: 'حدث خطأ أثناء تحديث البروفايل ❌' });
+      setToast({ type: 'error', message: 'An error occurred while updating the profile ❌' });
     } finally {
       setSaving(false);
     }
