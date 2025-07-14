@@ -47,7 +47,9 @@ export default function ({ setIsLoggedIn }) {
         localStorage.setItem("token", response.data.token);
         const decoded = jwtDecode(response.data.token);
         localStorage.setItem("id", decoded.id);
-        localStorage.setItem("username", username);
+        localStorage.setItem("username", decoded.username || username);
+        localStorage.setItem("email", decoded.email || "");
+        localStorage.setItem("avatar", decoded.avatar || decoded.logoFile || "");
         localStorage.setItem("type", signUpType);
         setIsLoggedIn(true);
 

@@ -9,33 +9,49 @@ function transformTests(testsArray) {
       id: `${category.toLowerCase()}${idx + 1}`,
       question: q.content,
       choices: q.choices,
-      correctAnswer: q.choices.find(c => c.startsWith(q["correct answer"] + "."))
+      correctAnswer: q.choices.find((c) =>
+        c.startsWith(q["correct answer"] + ".")
+      ),
     }));
   });
   return result;
 }
 
-
 export default function Questions() {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  let tests = location.state?.tests || {};
-  if (tests.length == 0)return null;
-  useEffect(()=>{
-    if (!location.state?.tests)
-    {
-      navigate('/');
+
+  let tests = location.state?.tests;
+
+  // Fallback to localStorage
+  if (!tests) {
+    const stored = localStorage.getItem("tests");
+    if (stored) {
+      try {
+        tests = JSON.parse(stored);
+      } catch (e) {
+        tests = undefined;
+      }
     }
-  }, [location, navigate])
+  }
+
+  // Redirect if no test data
+  useEffect(() => {
+    if (!tests || tests.length === 0) {
+      navigate("/");
+    }
+  }, [navigate, tests]);
+
+  // Defensive fallback
+  if (!tests || tests.length === 0) return null;
+
   tests = tests.slice(0, 5);
-  
   const questionsData = transformTests(tests);
 
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-  
+
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};
     Object.keys(questionsData).forEach((topic) => {
@@ -62,23 +78,13 @@ export default function Questions() {
   }, []);
 
   useEffect(() => {
-    if (!localStorage?.getItem('user') || !localStorage.getItem('username')) {
-      navigate('/');
-    }
-  }, []);
-
-  useEffect(() => {
     setCompletionStatus((prev) => {
       const newStatus = { ...prev };
       Object.keys(questionsData).forEach((topic) => {
         const answered = questionsData[topic].filter(
           (q) => answers[q.id] !== undefined
         ).length;
-        newStatus[topic] = {
-          ...newStatus[topic],
-          completed: answered,
-          total: questionsData[topic].length,
-        };
+        newStatus[topic].completed = answered;
       });
       return newStatus;
     });
