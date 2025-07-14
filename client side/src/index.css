@@ -20,3 +20,11 @@
 .scrollable::-webkit-scrollbar-track {
   background-color: #aaa8a8; /* Tailwind yellow-100 */
 }
+
+/* Text truncation utility */
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
