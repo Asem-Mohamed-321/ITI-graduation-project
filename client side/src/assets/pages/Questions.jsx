@@ -18,21 +18,29 @@ function transformTests(testsArray) {
 
 export default function Questions() {
   const location = useLocation();
-  let tests = location.state?.tests || {};
-  useEffect(()=>{{
-    if (!location.state?.tests)
-    {
+  const navigate = useNavigate();
+  let tests = location.state?.tests;
+  if (!tests) {
+    const stored = localStorage.getItem('tests');
+    if (stored) {
+      try {
+        tests = JSON.parse(stored);
+      } catch (e) {
+        tests = undefined;
+      }
+    }
+  }
+  useEffect(() => {
+    if (!tests) {
       navigate('/');
     }
-  }}, [])
-  tests = tests.slice(0, 5);
-  
+  }, [tests, navigate]);
+  tests = tests ? tests.slice(0, 5) : [];
   const questionsData = transformTests(tests);
 
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(15 * 60);
-  const navigate = useNavigate();
 
   const [completionStatus, setCompletionStatus] = useState(() => {
     const status = {};

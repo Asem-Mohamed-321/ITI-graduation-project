@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { NavLink , useNavigate } from "react-router-dom"; 
 import { jwtDecode } from "jwt-decode";
 
-export default function Navbar({ isLoggedIn, setIsLoggedIn }){
+export default function Navbar({ isLoggedIn, setIsLoggedIn, avatar }){
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // hamburger menu in mobile view
     const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // settings dropdown in mobile view
 
@@ -23,11 +23,11 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
   // If user
   if (decoded.role === 'user') {
-    return decoded.avatar || "/images/profile_unset.svg";
+    return avatar || decoded.avatar || "/images/profile_unset.svg";
   }
 
   // Else: assume admin
-  return decoded.avatar || "/images/profile_unset.svg";
+  return avatar || decoded.avatar || "/images/profile_unset.svg";
 };
 
     useEffect(() => {
@@ -86,10 +86,10 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                         {/* Centered navigation links */}
                         <div className="hidden sm:flex items-center justify-center flex-1">
                             <div className="flex space-x-6">
-                                {/* Show Home link only for company users and non-logged in users */}
-                                {(isLoggedIn && userType === 'company') || !isLoggedIn ? (
+                                {/* Show Home link only for users */}
+                                {isLoggedIn && userType === 'user' && (
                                     <NavLink 
-                                        to={isLoggedIn && userType === 'company' ? '/company' : '/home'} 
+                                        to="/home"
                                         className={({ isActive }) => 
                                             `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
                                                 isActive 
@@ -103,7 +103,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                                             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
                                         )}
                                     </NavLink>
-                                ) : null}
+                                )}
                                 {/* Show Dashboard link only for admin users */}
                                 {isLoggedIn && userType === 'admin' && (
                                     <NavLink 
