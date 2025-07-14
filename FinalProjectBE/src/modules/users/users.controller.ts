@@ -16,12 +16,14 @@ import { UsersService } from "./users.services";
 import { ApiBearerAuth, ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { IJwtPayload } from "src/interfaces/jwt.payload.interface";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import * as jwt from 'jsonwebtoken';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Users')
 @ApiBearerAuth()
 @Controller("/users")
 export class UsersController {
-  constructor(private readonly service: UsersService) {}
+  constructor(private readonly service: UsersService, private readonly configService: ConfigService) {}
 
   @Get("/")
   @ApiOperation({ summary: 'Get all users (public endpoint)' })
@@ -56,9 +58,25 @@ export class UsersController {
     @Req() req: Request
   ) {
     const user: IJwtPayload = req["user"];
-    
     // User can only update their own profile
-    return this.service.updateProfile(user.id, updateUserDto);
+    const updatedUser = await this.service.updateProfile(user.id, updateUserDto);
+    if (!updatedUser) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    // Generate new JWT token with updated data
+    const payload = {
+      username: updatedUser.username,
+      id: updatedUser._id,
+      role: updatedUser.role,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+      fields: updatedUser.Fields,
+    };
+    const token = jwt.sign(
+      payload,
+      this.configService.getOrThrow<string>('JWT_SECRET')
+    );
+    return { ...updatedUser.toObject(), token };
   }
 
   // Admin endpoints

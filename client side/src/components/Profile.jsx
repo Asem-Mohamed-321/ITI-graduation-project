@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaFileAlt, FaChartBar, FaCalendarAlt, FaEye, FaCheckCircle, FaExclamationCircle, FaLightbulb } from "react-icons/fa";
+import { FaFileAlt, FaChartBar, FaCalendarAlt, FaEye, FaCheckCircle, FaExclamationCircle, FaLightbulb, FaEdit, FaSave, FaTimes, FaCheck, FaExclamationTriangle } from "react-icons/fa";
 
 // Progress Circle component
 const ProgressCircle = ({ percent, color }) => (
@@ -65,12 +65,30 @@ const getBreakdownColor = (score) => {
   return "bg-red-100 text-red-700 border-red-200";
 };
 
+const Toast = ({ type, message, onClose }) => {
+  if (!message) return null;
+  return (
+    <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 text-white text-base animate-fade-in-up
+      ${type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}
+      style={{ minWidth: 220 }}
+    >
+      {type === 'success' ? <FaCheck className="text-2xl" /> : <FaExclamationTriangle className="text-2xl" />}
+      <span>{message}</span>
+      <button onClick={onClose} className="ml-2 text-white text-lg font-bold">×</button>
+    </div>
+  );
+};
+
 const Profile = () => {
   const [profile, setProfile] = useState({ name: "", email: "", photoUrl: "" });
+  const [editMode, setEditMode] = useState(false);
+  const [editValues, setEditValues] = useState(profile);
   const [cvs, setCVs] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [openCV, setOpenCV] = useState(null); // For toggling details
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState({ type: '', message: '' });
 
   const logoutAndRedirect = () => {
     localStorage.removeItem("token");
@@ -93,6 +111,11 @@ const Profile = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfile({
+          name: res.data.username || res.data.name || "",
+          email: res.data.email || "",
+          photoUrl: res.data.avatar || "/public/images/1.png",
+        });
+        setEditValues({
           name: res.data.username || res.data.name || "",
           email: res.data.email || "",
           photoUrl: res.data.avatar || "/public/images/1.png",
@@ -136,6 +159,58 @@ const Profile = () => {
     return "#e53935"; // red
   };
 
+  // Edit Handlers
+  const handleEdit = () => {
+    setEditValues(profile);
+    setEditMode(true);
+  };
+  const handleCancel = () => setEditMode(false);
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues((prev) => ({ ...prev, [name]: value }));
+  };
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setEditValues((prev) => ({ ...prev, photoUrl: ev.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const token = localStorage.getItem("token");
+      const payload = {
+        username: editValues.name,
+        email: editValues.email,
+        avatar: editValues.photoUrl,
+      };
+      await axios.put("http://localhost:3000/users/profile", payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProfile({ ...editValues });
+      setEditMode(false);
+      setError("");
+      setToast({ type: 'success', message: 'تم تحديث البروفايل بنجاح ✅' });
+    } catch (err) {
+      setError("Failed to update profile: " + (err.response?.data?.message || err.message));
+      setToast({ type: 'error', message: 'حدث خطأ أثناء تحديث البروفايل ❌' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Toast auto-hide
+  useEffect(() => {
+    if (toast.message) {
+      const timer = setTimeout(() => setToast({ type: '', message: '' }), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
   if (loading) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-emerald-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 transition-colors duration-500">
@@ -146,23 +221,71 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center py-8 px-2 md:px-0 bg-gradient-to-br from-slate-100 via-white to-emerald-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 transition-colors duration-500">
+      {/* Toast */}
+      <Toast type={toast.type} message={toast.message} onClose={() => setToast({ type: '', message: '' })} />
       <div className="w-full max-w-5xl mb-8">
-        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-8 border border-gray-100 dark:border-slate-800">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-8 border border-gray-100 dark:border-slate-800 relative">
           <img
-            src={profile.photoUrl}
+            src={editMode ? editValues.photoUrl : profile.photoUrl}
             alt="avatar"
             className="w-24 h-24 rounded-full border-4 border-[#1976D2] object-cover shadow"
           />
           <div className="flex-1 flex flex-col gap-2">
-            <div className="text-2xl font-bold text-[#222] dark:text-white">{profile.name || "User"}</div>
-            <div className="text-gray-500 dark:text-gray-300">Full Stack Developer | CV Analysis Expert</div>
-            <div className="flex items-center gap-3 mt-2">
-              <span className="text-[#1976D2] font-medium">{profile.email}</span>
-              <span className="text-green-600 flex items-center gap-1 font-medium">
-                <svg width="18" height="18" fill="currentColor" className="inline"><circle cx="9" cy="9" r="8" stroke="#4caf50" strokeWidth="2" fill="#4caf50" /></svg>
-                {cvs.length} CV Analyzed
-              </span>
-            </div>
+            {editMode ? (
+              <>
+                <input
+                  className="text-2xl font-bold text-[#222] dark:text-white bg-gray-100 dark:bg-slate-800 rounded px-2 py-1 mb-2"
+                  name="name"
+                  value={editValues.name}
+                  onChange={handleEditChange}
+                />
+                <input
+                  className="text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-slate-800 rounded px-2 py-1 mb-2"
+                  name="email"
+                  value={editValues.email}
+                  onChange={handleEditChange}
+                />
+                <label className="text-xs text-gray-500 dark:text-gray-300 mt-2 cursor-pointer inline-block">
+                  Change Photo
+                  <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+                </label>
+                <div className="flex gap-3 mt-3">
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 font-semibold shadow"
+                    onClick={handleSave}
+                    disabled={saving}
+                  >
+                    <FaSave /> {saving ? "Saving..." : "Save"}
+                  </button>
+                  <button
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg flex items-center gap-2 font-semibold shadow"
+                    onClick={handleCancel}
+                  >
+                    <FaTimes /> Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="text-2xl font-bold text-[#222] dark:text-white flex items-center gap-2">
+                  {profile.name || "User"}
+                  <button
+                    className="ml-2 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-full flex items-center gap-1 text-sm font-semibold shadow"
+                    onClick={handleEdit}
+                  >
+                    <FaEdit /> Edit
+                  </button>
+                </div>
+                <div className="text-gray-500 dark:text-gray-300">Full Stack Developer | CV Analysis Expert</div>
+                <div className="flex items-center gap-3 mt-2">
+                  <span className="text-[#1976D2] font-medium">{profile.email}</span>
+                  <span className="text-green-600 flex items-center gap-1 font-medium">
+                    <svg width="18" height="18" fill="currentColor" className="inline"><circle cx="9" cy="9" r="8" stroke="#4caf50" strokeWidth="2" fill="#4caf50" /></svg>
+                    {cvs.length} CV Analyzed
+                  </span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -264,4 +387,15 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;
+
+/* tailwind animation */
+/* أضف هذا في index.css أو global css:
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s cubic-bezier(.39,.575,.565,1.000) both;
+}
+*/ 
