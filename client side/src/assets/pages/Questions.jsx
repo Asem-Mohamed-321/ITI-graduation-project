@@ -30,11 +30,11 @@ export default function Questions() {
       }
     }
   }
-  useEffect(() => {
-    if (!tests) {
-      navigate('/');
-    }
-  }, [tests, navigate]);
+  // useEffect(() => {
+  //   if (!tests) {
+  //     navigate('/');
+  //   }
+  // }, [tests, navigate]);
   tests = tests ? tests.slice(0, 5) : [];
   const questionsData = transformTests(tests);
 
@@ -67,11 +67,11 @@ export default function Questions() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (!localStorage?.getItem('user') || !localStorage.getItem('username')) {
-      navigate('/');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!localStorage?.getItem('user') || !localStorage.getItem('username')) {
+  //     navigate('/');
+  //   }
+  // }, []);
 
   useEffect(() => {
     setCompletionStatus((prev) => {
