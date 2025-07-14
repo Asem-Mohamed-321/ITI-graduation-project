@@ -12,7 +12,6 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
     currentPage * itemsPerPage
   );
 
-  console.log(columns,data)
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-md shadow overflow-hidden">
       <div className="relative overflow-x-auto">
@@ -30,14 +29,14 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
                 key={item.id || index}
                 onClick={() => setSelectedItem(item)}
                 className={`cursor-pointer transition-all duration-200 relative ${
-                  selectedItem?.id === item.id || selectedItem?.username === item.username
-                    ? "bg-blue-50 border-l-4 border-blue-500 shadow-sm" 
+                  selectedItem?.id === item.id
+                    ? "bg-blue-50 border-l-4 border-blue-500 shadow-sm"
                     : "hover:bg-gray-50 border-l-4 border-transparent"
                 }`}
               >
                 {columns.map((col, colIndex) => (
                   <td key={col.key} className="px-6 py-4 relative">
-                    {colIndex === 0 && (selectedItem?.id === item.id || selectedItem?.username === item.username) && (
+                    {colIndex === 0 && selectedItem?.id === item.id && (
                       <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-r-full"></div>
                     )}
                     {Array.isArray(item[col.key])
@@ -72,7 +71,7 @@ export default function DataTable({ columns, data, onDelete, onEdit }) {
                             </div>
                           </div>
                         ) : (
-                          <span className={selectedItem?.id === item.id || selectedItem?.username === item.username ? "font-semibold text-gray-900" : ""}>
+                          <span className={selectedItem?.id === item.id ? "font-semibold text-gray-900" : ""}>
                             {item[col.key]}
                           </span>
                         )}

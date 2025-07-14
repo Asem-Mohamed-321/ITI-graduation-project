@@ -61,6 +61,8 @@ export default function ({ setIsLoggedIn }) {
           ? "/company"
           : decoded.role === "user"
           ? "/home"
+          : decoded.role === "admin"
+          ? "/admin/dashboard"
           : "/admin";
         setTimeout(() => navigate(targetPage), 1000);
       }

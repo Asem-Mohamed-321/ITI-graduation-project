@@ -5,6 +5,9 @@ import axios from "axios";
 export default function CompanyList() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,26 +30,6 @@ export default function CompanyList() {
         setLoading(false);
       });
   }, []);
-
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [selectedCompanyId, setSelectedCompanyId] = useState(null);
-
-  const [showModal, setShowModal] = useState(false);
-
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(companies.length / itemsPerPage);
-
-  const paginatedData = companies.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
-  };
 
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
