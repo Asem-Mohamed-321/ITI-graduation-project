@@ -95,6 +95,8 @@ export class JobController {
     return this.jobService.getAllJobsByCompany(companyId);
   }
 
+
+
   @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a specific job by ID (Admin or Owner Company)' })
@@ -123,6 +125,27 @@ export class JobController {
     const userId = req['user']?.id;
     const userRole = req['user']?.role;
     return this.jobService.updateJobById(id, updateDto, userId, userRole);
+  }
+
+
+
+  @ApiBearerAuth()
+  @Delete(':id/candidates/:username')
+  @ApiOperation({ summary: 'Delete a candidate from a job (Admin or Owner Company)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Candidate removed successfully',
+  })
+  deleteCandidateFromJob(@Param('id') jobId: string, @Param('username') username: string, @Req() req: Request) {
+    console.log('DELETE /jobs/:id/candidates/:username called');
+    console.log('Job ID:', jobId);
+    console.log('Username:', username);
+    console.log('User ID:', req['user']?.id);
+    console.log('User Role:', req['user']?.role);
+    
+    const userId = req['user']?.id;
+    const userRole = req['user']?.role;
+    return this.jobService.deleteCandidateFromJob(jobId, username, userId, userRole);
   }
 
   @ApiBearerAuth()

@@ -68,7 +68,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
 
                     {/* desktop view buttons in the navbar */}
                     <div className="flex flex-1 items-center justify-between">
-                        <NavLink to={'/home'} className="flex items-center gap-3 group select-none leading-none">
+                        <NavLink to={isLoggedIn && userType === 'company' ? '/company' : '/home'} className="flex items-center gap-3 group select-none leading-none">
                             {/* Clean, modern, perfectly aligned bridge logo */}
                             <svg className="h-8 w-8 md:h-10 md:w-10 text-white align-middle" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4 24C4 13 8 8 16 8C24 8 28 13 28 24" stroke="white" strokeWidth="2.8" strokeLinecap="round" fill="none"/>
@@ -87,7 +87,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
                         <div className="hidden sm:flex items-center justify-center flex-1">
                             <div className="flex space-x-6">
                                 <NavLink 
-                                    to="/home" 
+                                    to={isLoggedIn && userType === 'company' ? '/company' : '/home'} 
                                     className={({ isActive }) => 
                                         `cursor-pointer rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 hover:scale-105 relative ${
                                             isActive 
@@ -264,7 +264,7 @@ export default function Navbar({ isLoggedIn, setIsLoggedIn }){
             <div className="sm:hidden" id="mobile-menu">
                 <div className="space-y-1 px-2 pt-2 pb-3 ">
                     <NavLink 
-                        to="home" 
+                        to={isLoggedIn && userType === 'company' ? '/company' : '/home'} 
                         className={({ isActive }) => 
                             `block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 relative ${
                                 isActive 

@@ -69,4 +69,33 @@ export class JobService {
     
     return job;
   }
+
+  // Delete candidate from job with permission check
+  async deleteCandidateFromJob(jobId: string, username: string, userId: string, userRole: string) {
+    const canModify = await this.canModifyJob(jobId, userId, userRole);
+    
+    if (!canModify) {
+      throw new Error('Unauthorized: You can only modify your own job posts');
+    }
+    
+    const job = await this.jobModel.findById(jobId);
+    
+    if (!job) {
+      throw new Error('Job not found');
+    }
+    
+    // Remove the candidate from the candidates array
+    const updatedJob = await this.jobModel.findByIdAndUpdate(
+      jobId,
+      { $pull: { candidates: { username: username } } },
+      { new: true }
+    ).populate('company');
+    
+    if (!updatedJob) {
+      throw new Error('Failed to update job');
+    }
+    
+    console.log(`Removed candidate ${username} from job ${jobId}`);
+    return updatedJob;
+  }
 }
