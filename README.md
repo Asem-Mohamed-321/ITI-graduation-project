@@ -106,8 +106,3 @@ Ensure you have the following installed:
    ```
    http://localhost:5173
    ```
-
-## Development Notes
-
-- The frontend is bootstrapped using Vite with React
-- For best practice, consider using TypeScript and enabling type-aware lint rules. See [Vite's React TS Template](https://vitejs.dev/guide/) 
